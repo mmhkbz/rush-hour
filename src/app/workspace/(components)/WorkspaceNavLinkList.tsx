@@ -1,4 +1,4 @@
-import {IconFile, IconHome, IconLogout, IconSettings} from '@tabler/icons-react'
+import {IconHome, IconList, IconLogout, IconSettings} from '@tabler/icons-react'
 import WorkspaceNavLink from './WorkspaceNavLink'
 import {usePathname} from 'next/navigation'
 
@@ -10,7 +10,7 @@ const MENUS = [
   },
   {
     label: 'Tasks',
-    icon: IconFile,
+    icon: IconList,
     href: '/workspace/tasks',
   },
   {

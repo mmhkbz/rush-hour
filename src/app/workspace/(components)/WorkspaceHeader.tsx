@@ -10,20 +10,18 @@ import {IconMenu2} from '@tabler/icons-react'
 import Image from 'next/image'
 import WorkspaceNavLinkList from './WorkspaceNavLinkList'
 import {HeartIcon} from '@radix-ui/react-icons'
-import {usePathname} from 'next/navigation'
 import {useDisclosure} from '@mantine/hooks'
 
 const Brand = () => {
   return (
     <div className="flex items-center gap-2">
-      <Image src="/icons/brand.png" alt="brand-icon" width={32} height={32} />
-      <h6 className="text-[14px] text-blue-800">Rush Hour</h6>
+      <Image src="/icons/brand.png" alt="brand-icon" width={40} height={40} />
+      <h6 className="text-[16px] text-blue-800">Rush Hour</h6>
     </div>
   )
 }
 
 export default function WorkspaceHeader() {
-  const pathname = usePathname()
   const [opened, {open, close}] = useDisclosure()
 
   return (
@@ -41,15 +39,7 @@ export default function WorkspaceHeader() {
         </SheetTrigger>
         <SheetContent side="left" className="p-5">
           <SheetHeader>
-            <div className="flex items-center gap-2">
-              <Image
-                src="/icons/brand.png"
-                alt="brand-icon"
-                width={32}
-                height={32}
-              />
-              <h6 className="text-[14px] text-blue-800">Rush Hour</h6>
-            </div>
+            <Brand />
           </SheetHeader>
           <div className="py-10">
             <WorkspaceNavLinkList onAfterClick={close} />

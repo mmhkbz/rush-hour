@@ -16,6 +16,7 @@ module.exports = {
         'docs',
         'chore',
         'revert',
+        'wip',
       ],
     ],
   },
