@@ -12,15 +12,27 @@ type Props = {
   isActive?: boolean
   onClick?: VoidFunction
   className?: string
+  onAfterClick?: VoidFunction
 }
 
 export default function WorkspaceNavLink(props: Props) {
-  const {href, label, Icon, isActive, onClick, className = ''} = props
+  const {
+    href,
+    label,
+    Icon,
+    isActive,
+    onClick,
+    className = '',
+    onAfterClick,
+  } = props
 
   if (!href && isActive === undefined && onClick) {
     return (
       <li
-        onClick={onClick}
+        onClick={() => {
+          onClick()
+          onAfterClick && onAfterClick()
+        }}
         key={label}
         className={cn(
           'hover:cursor-pointer py-3 px-3 transition-colors hover:bg-neutral-50 flex items-center gap-2',
@@ -48,7 +60,7 @@ export default function WorkspaceNavLink(props: Props) {
   }
 
   return (
-    <Link key={href} href={href || ''}>
+    <Link onClick={onAfterClick} key={href} href={href || ''}>
       <li
         key={label}
         className={cn(
