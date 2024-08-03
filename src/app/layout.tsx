@@ -2,7 +2,7 @@ import type {Metadata} from 'next'
 import {Nunito} from 'next/font/google'
 import './globals.css'
 
-const nunito = Nunito({subsets: ['latin'], weight: '500'})
+const nunito = Nunito({subsets: ['latin']})
 
 export const metadata: Metadata = {
   title: 'Rush Hour',
