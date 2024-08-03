@@ -1,6 +1,7 @@
 import {Separator} from '@/components/ui/separator'
 import TaskCard from './(components)/TaskCard'
 import {Metadata} from 'next'
+import TaskControlPanelHeader from './(components)/TaskControlPanelHeader'
 
 export const metadata: Metadata = {
   title: 'Workspace | Tasks',
@@ -10,6 +11,7 @@ export default function TasksPage() {
   return (
     <div className="py-5 p-3 ">
       <h3 className="text-[16px] font-bold text-blue-800">Tasks Panel</h3>
+      <TaskControlPanelHeader />
       <div className="py-5 flex flex-col gap-5">
         <div>
           <h6 className="font-bold mb-2 text-[14px]">| Today Tasks</h6>
@@ -20,7 +22,7 @@ export default function TasksPage() {
               timestamp={new Date()}
               timeTo={new Date()}
               timeFrom={new Date()}
-              status="complete"
+              status="completed"
               username="Lionel"
               userId="id"
             />
@@ -30,7 +32,7 @@ export default function TasksPage() {
               timestamp={new Date()}
               timeTo={new Date()}
               timeFrom={new Date()}
-              status="progress"
+              status="in-progress"
               username="Lionel"
               userId="id"
             />
@@ -40,7 +42,7 @@ export default function TasksPage() {
               timestamp={new Date()}
               timeTo={new Date()}
               timeFrom={new Date()}
-              status="plan"
+              status="planned"
               username="Lionel"
               userId="id"
             />
@@ -51,7 +53,7 @@ export default function TasksPage() {
               timestamp={new Date()}
               timeTo={new Date()}
               timeFrom={new Date()}
-              status="complete"
+              status="pending"
               username="Lionel"
               userId="id"
             />
@@ -66,7 +68,7 @@ export default function TasksPage() {
               timestamp={new Date()}
               timeTo={new Date()}
               timeFrom={new Date()}
-              status="plan"
+              status="planned"
               username="Lionel"
               userId="id"
             />
@@ -77,7 +79,7 @@ export default function TasksPage() {
               timestamp={new Date()}
               timeTo={new Date()}
               timeFrom={new Date()}
-              status="complete"
+              status="completed"
               username="Lionel"
               userId="id"
             />

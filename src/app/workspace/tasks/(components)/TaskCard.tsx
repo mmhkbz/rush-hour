@@ -12,7 +12,7 @@ type TaskCardPropsType = {
   timestamp: Date
   timeFrom: Date
   timeTo: Date
-  status: 'complete' | 'progress' | 'plan'
+  status: 'completed' | 'in-progress' | 'planned' | 'pending'
   userId: string
   username: string
 }
@@ -22,12 +22,14 @@ export default function TaskCard(props: TaskCardPropsType) {
 
   const statusColor = useMemo(() => {
     switch (status) {
-      case 'plan':
+      case 'planned':
         return 'bg-blue-500'
-      case 'progress':
+      case 'in-progress':
         return 'bg-orange-500'
-      case 'complete':
+      case 'completed':
         return 'bg-green-500'
+      case 'pending':
+        return 'bg-yellow-500'
     }
   }, [status])
 
