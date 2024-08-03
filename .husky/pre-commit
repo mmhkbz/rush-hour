@@ -1,1 +1,1 @@
-echo "It works!"
+npm run lint
