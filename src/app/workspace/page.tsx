@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 export default function SpacePage() {
   return (
     <div className="pt-[24px]">
-      <div className="grid grid-cols-3 gap-3 p-3">
+      <div className="grid grid-cols-3 gap-5 md:gap-3 p-3">
         <ProfileView />
         <TodayTasksPreviewCard />
         <ShortcutLinkCard />
