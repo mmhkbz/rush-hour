@@ -1,6 +1,8 @@
+'use client'
 import {IconHome, IconList, IconLogout, IconSettings} from '@tabler/icons-react'
 import WorkspaceNavLink from './WorkspaceNavLink'
 import {usePathname} from 'next/navigation'
+import {useEffect, useState} from 'react'
 
 const MENUS = [
   {
@@ -26,6 +28,16 @@ type Props = {
 
 export default function WorkspaceNavLinkList({onAfterClick}: Props) {
   const pathname = usePathname()
+  const [isClient, setIsClient] = useState(false)
+
+  useEffect(() => {
+    setIsClient(true)
+  }, [])
+
+  if (!isClient) {
+    return
+  }
+
   return (
     <ul className="flex flex-col ">
       {MENUS.map((menu) => {

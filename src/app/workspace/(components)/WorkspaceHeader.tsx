@@ -1,9 +1,9 @@
 'use client'
-import {Button} from '@/components/ui/button'
 import {
   Sheet,
   SheetContent,
   SheetHeader,
+  SheetTitle,
   SheetTrigger,
 } from '@/components/ui/sheet'
 import {IconMenu2} from '@tabler/icons-react'
@@ -11,6 +11,7 @@ import Image from 'next/image'
 import WorkspaceNavLinkList from './WorkspaceNavLinkList'
 import {HeartIcon} from '@radix-ui/react-icons'
 import {useDisclosure} from '@mantine/hooks'
+import {useEffect, useState} from 'react'
 
 const Brand = () => {
   return (
@@ -23,6 +24,15 @@ const Brand = () => {
 
 export default function WorkspaceHeader() {
   const [opened, {open, close}] = useDisclosure()
+  const [isClient, setIsClient] = useState(false)
+
+  useEffect(() => {
+    setIsClient(true)
+  }, [])
+
+  if (!isClient) {
+    return null
+  }
 
   return (
     <header
@@ -33,13 +43,13 @@ export default function WorkspaceHeader() {
         open={opened}
         onOpenChange={(isOpen) => (isOpen ? open() : close())}>
         <SheetTrigger>
-          <Button size="sm" variant="ghost">
-            <IconMenu2 width={32} height={32} />
-          </Button>
+          <IconMenu2 width={32} height={32} />
         </SheetTrigger>
         <SheetContent side="left" className="p-5">
           <SheetHeader>
-            <Brand />
+            <SheetTitle>
+              <Brand />
+            </SheetTitle>
           </SheetHeader>
           <div className="py-10">
             <WorkspaceNavLinkList onAfterClick={close} />

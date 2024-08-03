@@ -4,8 +4,19 @@ import {Card, CardContent, CardHeader, CardTitle} from '@/components/ui/card'
 import {Separator} from '@/components/ui/separator'
 import WorkspaceNavLink from './WorkspaceNavLink'
 import {IconFile, IconList, IconSettings} from '@tabler/icons-react'
+import {useEffect, useState} from 'react'
 
 export default function ShortcutLinkCard() {
+  const [isClient, setIsClient] = useState(false)
+
+  useEffect(() => {
+    setIsClient(true)
+  }, [])
+
+  if (!isClient) {
+    return null
+  }
+
   return (
     <Card className="col-span-3 md:col-span-1">
       <CardContent className="p-5">

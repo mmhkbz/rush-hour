@@ -2,8 +2,19 @@
 import Image from 'next/image'
 import {HeartIcon} from '@radix-ui/react-icons'
 import WorkspaceNavLinkList from './WorkspaceNavLinkList'
+import {useEffect, useState} from 'react'
 
 export default function WorkspaceSidebar() {
+  const [isClient, setIsClient] = useState(false)
+
+  useEffect(() => {
+    setIsClient(true)
+  }, [])
+
+  if (!isClient) {
+    return null
+  }
+
   return (
     <section className="w-[18%] fixed left-0 hidden md:block  z-10 h-[100%] shadow-sm max-w-[18%] max-h-[100%] bg-white">
       <div

@@ -1,8 +1,8 @@
 import type {Metadata} from 'next'
-import {Nunito, Poppins, Roboto_Flex} from 'next/font/google'
+import {Nunito} from 'next/font/google'
 import './globals.css'
 
-const poppins = Roboto_Flex({subsets: ['latin'], weight: '500'})
+const nunito = Nunito({subsets: ['latin'], weight: '500'})
 
 export const metadata: Metadata = {
   title: 'Rush Hour',
@@ -17,7 +17,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={poppins.className}>{children}</body>
+      <body className={nunito.className}>{children}</body>
     </html>
   )
 }

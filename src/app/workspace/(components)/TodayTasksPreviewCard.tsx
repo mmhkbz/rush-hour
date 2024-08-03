@@ -1,6 +1,5 @@
-import {Badge} from '@/components/ui/badge'
 import {Button} from '@/components/ui/button'
-import {Card, CardContent, CardHeader, CardTitle} from '@/components/ui/card'
+import {Card, CardContent, CardTitle} from '@/components/ui/card'
 import {
   Table,
   TableBody,
@@ -32,10 +31,12 @@ export default function TodayTasksPreviewCard() {
           <Table className="border rounded-sm">
             <TableCaption>Today tasks list table</TableCaption>
             <TableHeader className="border rounded-sm">
-              <TableHead className="border w-[200px] max-w-[200px]">
-                Task Name
-              </TableHead>
-              <TableHead className="border">Status</TableHead>
+              <TableRow>
+                <TableHead className="border w-[200px] max-w-[200px]">
+                  Task Name
+                </TableHead>
+                <TableHead className="border">Status</TableHead>
+              </TableRow>
             </TableHeader>
             <TableBody>
               <TableRow>
