@@ -1,4 +1,5 @@
 import {create} from 'zustand'
+import {createJSONStorage, persist} from 'zustand/middleware'
 
 type TaskViewType = 'table' | 'card'
 
@@ -14,13 +15,20 @@ type AppStateActionType = {
 }
 
 export const useAppState = create<AppStateType & AppStateActionType>()(
-  (set) => ({
-    tasksView: 'card',
-    pagination: {
-      sizePerRequest: 10,
+  persist(
+    (set) => ({
+      tasksView: 'card',
+      pagination: {
+        sizePerRequest: 10,
+      },
+      setTasksView: (newState) =>
+        set((prev) => ({...prev, tasksView: newState})),
+    }),
+    {
+      name: 'app-state',
+      storage: createJSONStorage(() => localStorage),
     },
-    setTasksView: (newState) => set((prev) => ({...prev, tasksView: newState})),
-  }),
+  ),
 )
 
 export const selectTasksView = (state: AppStateType) => state.tasksView
