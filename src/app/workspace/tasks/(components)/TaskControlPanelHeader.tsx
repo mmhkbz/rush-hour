@@ -2,7 +2,7 @@
 import {Label} from '@/components/ui/label'
 import {Switch} from '@/components/ui/switch'
 import {selectTasksView, setTasksViewAction, useAppState} from '@/store'
-import {IconSquare, IconTable} from '@tabler/icons-react'
+import {IconListTree, IconTable} from '@tabler/icons-react'
 import TaskStatusSelect from './TaskStatusSelect'
 import FilterByProjectSelect from './FilterByProjectSelect'
 import FilterByBusinessFunctionSelect from './FilterByBusinessFunctionSelect'
@@ -21,7 +21,7 @@ export default function TaskControlPanelHeader() {
       </div>
       <div className="flex items-center space-x-2">
         <Label htmlFor="display-mode" className="flex gap-1 items-center">
-          <IconSquare width={16} height={16} />
+          <IconListTree width={16} height={16} />
           Card
         </Label>
         <Switch
