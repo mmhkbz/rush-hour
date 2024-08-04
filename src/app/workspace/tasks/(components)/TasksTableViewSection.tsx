@@ -14,7 +14,7 @@ const columns: ColumnDef<Task>[] = [
     header: 'Status',
     cell: ({row}) => {
       return (
-        <Badge className="capitalize max-w-[100px] line-clamp-1">
+        <Badge className="capitalize flex justify-center max-w-[100px] line-clamp-1">
           {row.original.status}
         </Badge>
       )
