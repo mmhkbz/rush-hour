@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 
 export default function TasksPage() {
   return (
-    <div className="py-5 p-3 ">
+    <div className="py-5 p-3 overflow-scroll">
       <h3 className="text-[16px] font-bold text-blue-800">Tasks Panel</h3>
       <TaskControlPanelHeader />
       <TasksViewSection />

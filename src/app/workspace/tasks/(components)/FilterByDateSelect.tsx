@@ -9,10 +9,7 @@ import {useState} from 'react'
 import {DateRange} from 'react-day-picker'
 
 export default function FilterByDateSelect() {
-  const [date, setDate] = useState<DateRange | undefined>({
-    from: new Date(),
-    to: addDays(new Date(), -1),
-  })
+  const [date, setDate] = useState<DateRange | undefined>()
   return (
     <div className={cn('grid gap-2')}>
       <Popover>
@@ -20,7 +17,7 @@ export default function FilterByDateSelect() {
           <Button
             id="date"
             variant={'outline'}
-            className={cn('w-[280px] justify-start text-left font-normal')}>
+            className={cn('w-[250px] justify-start text-left font-normal')}>
             <CalendarIcon className="mr-2 h-4 w-4" />
 
             {date?.from ? (
@@ -33,7 +30,7 @@ export default function FilterByDateSelect() {
                 format(date.from, 'LLL dd, y')
               )
             ) : (
-              <span>Pick a date</span>
+              <span>Filter by date</span>
             )}
           </Button>
         </PopoverTrigger>

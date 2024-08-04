@@ -5,7 +5,7 @@ import WorkspaceHeader from './(components)/WorkspaceHeader'
 export default function WorkspaceLayout(props: PropsWithChildren) {
   const {children} = props
   return (
-    <div className="w-screen h-screen max-w-screen max-h-screen bg-neutral-100 md:flex gap-2">
+    <div className="w-screen h-screen max-w-screen max-h-screen bg-neutral-50 md:flex gap-2">
       <WorkspaceSidebar />
       {/* for mobile */}
       <WorkspaceHeader />

@@ -12,7 +12,7 @@ type TaskCardPropsType = {
   timestamp: Date
   timeFrom: Date
   timeTo: Date
-  status: 'completed' | 'in-progress' | 'planned' | 'pending'
+  status: TaskStatus
   userId: string
   username: string
 }
@@ -36,7 +36,7 @@ export default function TaskCard(props: TaskCardPropsType) {
   return (
     <Card className="col-span-3 hover:cursor-pointer hover:shadow-md hover:opacity-85 transition-all md:col-span-1  border-l-4 border-l-blue-800 flex items-center  rounded-md px-[4px] py-[8px] min-h-[90px]">
       <IconGripVertical width={16} height={16} />
-      <div className="w-[30%] flex flex-col justify-center items-center gap-2 ml-1 h-[100%] bg-neutral-100 rounded-md p-2">
+      <div className="w-[33%] flex flex-col justify-center items-center gap-2 ml-1 h-[100%] bg-neutral-100 rounded-md p-2">
         <span className="text-[14px] font-bold text-blue-800">
           {format(timestamp, 'yyyy MMM, dd')}
         </span>
