@@ -6,23 +6,29 @@ import {
   FormField,
   FormItem,
   FormLabel,
+  FormMessage,
 } from '@/components/ui/form'
 import {Input} from '@/components/ui/input'
-import {useForm} from 'react-hook-form'
+import {useLogin} from '../(hooks)/useLogin'
 
 export default function LoginForm() {
-  const form = useForm()
+  const {form, handleLogin} = useLogin()
   return (
     <Form {...form}>
-      <form className="flex flex-col gap-2">
+      <form onSubmit={handleLogin} className="flex flex-col gap-2">
         <FormField
           name="employeeId"
           render={({field}) => (
             <FormItem>
               <FormLabel>Employee Id</FormLabel>
               <FormControl>
-                <Input placeholder="Enter Employee Id" {...field} />
+                <Input
+                  type="number"
+                  placeholder="Enter Employee Id"
+                  {...field}
+                />
               </FormControl>
+              <FormMessage />
             </FormItem>
           )}
         />
@@ -38,11 +44,14 @@ export default function LoginForm() {
                   {...field}
                 />
               </FormControl>
+              <FormMessage />
             </FormItem>
           )}
         />
         <div className="mt-2">
-          <Button className="w-full bg-blue-800">Continue</Button>
+          <Button type="submit" className="w-full bg-blue-800">
+            Continue
+          </Button>
         </div>
       </form>
     </Form>
