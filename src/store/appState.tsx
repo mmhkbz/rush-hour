@@ -1,5 +1,4 @@
 import {create} from 'zustand'
-import {createJSONStorage, persist} from 'zustand/middleware'
 
 type TaskViewType = 'table' | 'card'
 
@@ -19,26 +18,19 @@ type AppStateActionType = {
 }
 
 export const useAppState = create<AppStateType & AppStateActionType>()(
-  persist(
-    (set) => ({
-      tasksView: 'card',
-      pagination: {
-        sizePerRequest: 10,
-      },
-      showNewTaskModal: false,
-      setShowTaskModal: (value) =>
-        set((prev) => ({...prev, showNewTaskModal: value})),
-      setTasksView: (newState) =>
-        set((prev) => ({...prev, tasksView: newState})),
-      showLogoutConfirmModal: false,
-      setShowLogoutConfirmModal: (value) =>
-        set((prev) => ({...prev, showLogoutConfirmModal: value})),
-    }),
-    {
-      name: 'app-state',
-      storage: createJSONStorage(() => localStorage),
+  (set) => ({
+    tasksView: 'card',
+    pagination: {
+      sizePerRequest: 10,
     },
-  ),
+    showNewTaskModal: false,
+    setShowTaskModal: (value) =>
+      set((prev) => ({...prev, showNewTaskModal: value})),
+    setTasksView: (newState) => set((prev) => ({...prev, tasksView: newState})),
+    showLogoutConfirmModal: false,
+    setShowLogoutConfirmModal: (value) =>
+      set((prev) => ({...prev, showLogoutConfirmModal: value})),
+  }),
 )
 
 export const selectTasksView = (state: AppStateType) => state.tasksView
