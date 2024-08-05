@@ -1,5 +1,3 @@
-import {Separator} from '@/components/ui/separator'
-import TaskCard from './(components)/TaskCard'
 import {Metadata} from 'next'
 import TaskControlPanelHeader from './(components)/TaskControlPanelHeader'
 import TasksViewSection from './(components)/TasksViewSection'
