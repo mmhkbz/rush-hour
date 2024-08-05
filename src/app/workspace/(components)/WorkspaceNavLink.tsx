@@ -35,9 +35,9 @@ export default function WorkspaceNavLink(props: Props) {
         }}
         key={label}
         className={cn(
-          'hover:cursor-pointer py-3 px-3 transition-colors  rounded-md hover:bg-neutral-100 flex items-center gap-2',
+          'hover:cursor-pointer py-3 px-3 transition-colors  rounded-md hover:bg-neutral-200 flex items-center gap-2',
           {
-            'bg-neutral-50': isActive,
+            'bg-neutral-1-0': isActive,
           },
           className,
         )}>
@@ -66,7 +66,7 @@ export default function WorkspaceNavLink(props: Props) {
         className={cn(
           'hover:cursor-pointer py-3 px-3 rounded-md transition-colors hover:bg-neutral-100 flex items-center gap-2',
           {
-            'bg-neutral-50': isActive,
+            'bg-neutral-100': isActive,
           },
         )}>
         <Icon

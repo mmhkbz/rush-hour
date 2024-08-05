@@ -1,12 +1,12 @@
 import {PropsWithChildren} from 'react'
 import WorkspaceSidebar from './(components)/WorkspaceSidebar'
 import WorkspaceHeader from './(components)/WorkspaceHeader'
-import {NewTaskModal} from '@/components/modal'
+import {LogoutConfirmModal, NewTaskModal} from '@/components/modal'
 
 export default function WorkspaceLayout(props: PropsWithChildren) {
   const {children} = props
   return (
-    <div className="w-screen h-screen max-w-screen max-h-screen bg-neutral-50 md:flex gap-2">
+    <div className="w-screen h-screen max-w-screen max-h-screen x md:flex gap-2">
       <WorkspaceSidebar />
       {/* for mobile */}
       <WorkspaceHeader />
@@ -14,6 +14,7 @@ export default function WorkspaceLayout(props: PropsWithChildren) {
         {children}
       </main>
       <NewTaskModal />
+      <LogoutConfirmModal />
     </div>
   )
 }
