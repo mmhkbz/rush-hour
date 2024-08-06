@@ -1,8 +1,14 @@
 'use server'
-import {AD_AUTH_CLIENT_ID, AD_AUTH_SERVICE_ID, AES_SECRET} from '@/configs'
+import {
+  AD_AUTH_CLIENT_ID,
+  AD_AUTH_SERVICE_ID,
+  AES_SECRET,
+  COOKIE_KEYS,
+} from '@/configs'
 import {adAuthClient} from '@/libs'
 import * as AES from 'aes-everywhere'
 import {AxiosError, AxiosResponse} from 'axios'
+import {cookies} from 'next/headers'
 
 type LoginParamType = {
   login_id: string
@@ -39,13 +45,27 @@ export const login = async ({login_id, password}: LoginParamType) => {
           'Content-Type': 'application/x-www-form-urlencoded',
         },
       })
+    // save to cookie
+    const cookieStore = cookies()
+    // set to cookie
+    cookieStore.set(COOKIE_KEYS.ACCESS_TOKEN, response.data.Data.accessToken, {
+      httpOnly: true,
+    })
+    cookieStore.set(
+      COOKIE_KEYS.REFRESH_TOKEN,
+      response.data.Data.RefreshToken,
+      {
+        httpOnly: true,
+      },
+    )
     return response.data
   } catch (e) {
     if (e instanceof AxiosError) {
       return e.response?.data
     }
     return {
-      message: 'Something went wrong, please try again later!',
+      message:
+        (e as Error).message || 'Something went wrong, please try again later!',
       error: true,
     }
   }

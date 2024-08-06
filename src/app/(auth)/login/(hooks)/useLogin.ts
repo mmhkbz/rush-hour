@@ -51,6 +51,7 @@ export function useLogin() {
       login_id: formData.employeeId.toString(),
       password: formData.password,
     })
+    // No response
     // API Known Error
     if (response.Error) {
       toast({
@@ -72,12 +73,14 @@ export function useLogin() {
     // Success
     if (response.Data && !response.Error) {
       const castedResponse = response as LoginSuccessResponse
+      // bind to global state
       dispatchSetToken({
         token: {
           access_token: castedResponse.Data.accessToken,
           refresh_token: castedResponse.Data.RefreshToken,
         },
       })
+      // bind to global state
       dispatchSetInfo({
         info: {
           employeeId: castedResponse.Data.login_id,
