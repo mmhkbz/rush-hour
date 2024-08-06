@@ -2,6 +2,7 @@
 import {
   Sheet,
   SheetContent,
+  SheetDescription,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
@@ -51,6 +52,7 @@ export default function WorkspaceHeader() {
               <Brand />
             </SheetTitle>
           </SheetHeader>
+          <SheetDescription>Have a nice day!</SheetDescription>
           <div className="py-10">
             <WorkspaceNavLinkList onAfterClick={close} />
           </div>
