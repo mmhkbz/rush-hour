@@ -40,6 +40,10 @@ declare global {
     message: string
     error: boolean
   }
+  export type NamedObject = {
+    id: string
+    name: string
+  }
 }
 
 export {}
