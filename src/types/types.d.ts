@@ -44,6 +44,10 @@ declare global {
     id: string
     name: string
   }
+  export enum RoleType {
+    ADMIN = 1,
+    USER = 2,
+  }
 }
 
 export {}
