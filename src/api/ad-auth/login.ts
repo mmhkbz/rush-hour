@@ -9,7 +9,7 @@ type LoginParamType = {
   password: string
 }
 
-type LoginSuccessResponse = APIDataResponse<{
+export type LoginSuccessResponse = APIDataResponse<{
   accessToken: string
   ExpiresIn: string
   RefreshToken: string

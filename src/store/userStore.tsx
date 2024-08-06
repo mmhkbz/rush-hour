@@ -10,7 +10,7 @@ type UserStoreStateType = {
     employeeId: string
     name: string
     position: string
-    profileURL: string
+    profileURL?: string
   }
   role?: {
     id: number | string

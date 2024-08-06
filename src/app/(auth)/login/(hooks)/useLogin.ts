@@ -4,9 +4,10 @@ import {useForm} from 'react-hook-form'
 import * as z from 'zod'
 import {zodResolver} from '@hookform/resolvers/zod'
 import {useMutation} from '@tanstack/react-query'
-import {login} from '@/api/ad-auth'
+import {login, LoginSuccessResponse} from '@/api/ad-auth'
 import {useToast} from '@/components/ui/use-toast'
 import {useRouter} from 'next/navigation'
+import {setInfoAction, setTokenAction, useUserStore} from '@/store'
 
 const loginFormSchema = z.object({
   employeeId: z
@@ -42,6 +43,8 @@ export function useLogin() {
   })
   const {toast} = useToast()
   const {replace} = useRouter()
+  const dispatchSetToken = useUserStore(setTokenAction)
+  const dispatchSetInfo = useUserStore(setInfoAction)
 
   const handleLogin = handleSubmit(async (formData) => {
     const response = await mutateAsync({
@@ -68,6 +71,22 @@ export function useLogin() {
     }
     // Success
     if (response.Data && !response.Error) {
+      const castedResponse = response as LoginSuccessResponse
+      dispatchSetToken({
+        token: {
+          access_token: castedResponse.Data.accessToken,
+          refresh_token: castedResponse.Data.RefreshToken,
+        },
+      })
+      dispatchSetInfo({
+        info: {
+          employeeId: castedResponse.Data.login_id,
+          name: castedResponse.Data.user_name,
+          position: castedResponse.Data.position,
+        },
+      })
+      // fetch current user role
+      // to keep writing
       toast({
         title: 'Success',
         description: 'Successfully logged in!',

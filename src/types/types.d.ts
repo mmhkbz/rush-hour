@@ -36,6 +36,10 @@ declare global {
       }[]
     }
   }
+  export type CustomInfoResponse = {
+    message: string
+    error: boolean
+  }
 }
 
 export {}
