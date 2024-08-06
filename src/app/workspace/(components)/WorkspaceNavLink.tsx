@@ -49,7 +49,7 @@ export default function WorkspaceNavLink(props: Props) {
           })}
         />
         <span
-          className={cn('text-[16px] font-semibold', {
+          className={cn('text-[16px]', {
             'text-blue-800': isActive,
             className: true,
           })}>
@@ -77,7 +77,7 @@ export default function WorkspaceNavLink(props: Props) {
           })}
         />
         <span
-          className={cn('text-[16px] font-semibold', {
+          className={cn('text-[16px] ', {
             'text-blue-800': isActive,
           })}>
           {label}
