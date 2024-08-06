@@ -1,15 +1,60 @@
-import {AD_CLIENT_ID} from '@/configs'
-import {adClient} from '@/libs'
+'use server'
+import {AD_AUTH_CLIENT_ID, AD_AUTH_SERVICE_ID, AES_SECRET} from '@/configs'
+import {adAuthClient} from '@/libs'
+import * as AES from 'aes-everywhere'
+import {AxiosError, AxiosResponse} from 'axios'
 
 type LoginParamType = {
   login_id: string
   password: string
 }
 
+type LoginSuccessResponse = APIDataResponse<{
+  accessToken: string
+  ExpiresIn: string
+  RefreshToken: string
+  RefreshTokenExpiresIn: string
+  RefreshCount: string
+  IssuedAt: string
+  RefreshTokenIssuedAt: string
+  user_master_id: string
+  user_name: string
+  login_id: string
+  branch_code: string
+  position: string
+  role_info: string
+  dayleft: string
+}>
+
 export const login = async ({login_id, password}: LoginParamType) => {
-  const body = new URLSearchParams({
-    login_id,
-    password,
+  try {
+    const cipherPassword = AES.encrypt(password, AES_SECRET)
+    const body = loginRequestBodyFactory({
+      login_id,
+      password: cipherPassword,
+    })
+    const response: AxiosResponse<LoginSuccessResponse> =
+      await adAuthClient.post('/AdAuth', body.toString(), {
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+      })
+    return response.data
+  } catch (e) {
+    if (e instanceof AxiosError) {
+      return e.response?.data
+    }
+    return {
+      message: 'Something went wrong, please try again later!',
+      error: true,
+    }
+  }
+}
+
+function loginRequestBodyFactory(param: LoginParamType) {
+  return new URLSearchParams({
+    login_id: param.login_id,
+    password: param.password,
     os_version: '',
     fb_token: '',
     longitude: '',
@@ -18,13 +63,7 @@ export const login = async ({login_id, password}: LoginParamType) => {
     device_name: 'PC | Browser : Chrome | Version : 92',
     device_id: 'tjy0bgbpz3ei3jfjiwycnemg',
     app_platform: 'browser',
-    client_id: AD_CLIENT_ID,
-    service_id: '8cc96819-5d2b-4d3a-8c0d-35e2b6935479',
+    client_id: AD_AUTH_CLIENT_ID,
+    service_id: AD_AUTH_SERVICE_ID,
   })
-  const response = await adClient.post('/AdAuth', body.toString(), {
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-    },
-  })
-  return response
 }

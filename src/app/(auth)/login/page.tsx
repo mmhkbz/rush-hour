@@ -9,21 +9,12 @@ import {Metadata} from 'next'
 import LoginForm from './(components)/LoginForm'
 import LoginBackground from './(components)/LoginBackground'
 import {HeartIcon} from '@radix-ui/react-icons'
-import * as AES256 from 'aes-everywhere'
-import {AES_SECRET} from '@/configs'
-import {requestToken} from '@/api/ad-auth'
 
 export const metadata: Metadata = {
   title: 'Login',
 }
 
 export default function LoginPage() {
-  console.log(AES_SECRET)
-  requestToken()
-
-  // console.log(AES256.encrypt('Mmh28803#009', '258ASEZSKEY'))
-  // id 7VNnfW1fLhDHPBsdwdeIhoWqKQnNlact
-  // sc 0TUGplNKYSYuJQHA
   return (
     <div className="w-screen relative h-screen flex justify-center items-center p-5">
       <Card className="w-[100%] md:w-[400px] rounded-md border-b-blue-800 border-b-4 py-5">

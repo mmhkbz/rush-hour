@@ -9,6 +9,7 @@ export default function LoginBackground() {
         width={200}
         height={200}
         alt="bg-blue"
+        priority={true}
       />
       <Image
         className="w-[150px] h-[150px] md:w-[200px] md:h-[200px] absolute left-0 top-0"
@@ -16,6 +17,7 @@ export default function LoginBackground() {
         width={200}
         height={200}
         alt="bg-blue"
+        priority={false}
       />
     </section>
   )

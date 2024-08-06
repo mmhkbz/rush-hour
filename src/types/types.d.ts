@@ -19,6 +19,23 @@ declare global {
   }
   export type TaskStatus = 'completed' | 'in-progress' | 'planned' | 'pending'
   export type TaskComplexity = 'Low' | 'Medium' | 'High'
+  type APIBaseResponse = {
+    KBZRefNo: string
+  }
+  export type APIDataResponse<T> = APIBaseResponse & {
+    Data: T
+  }
+  export type APIErrorResponse = APIBaseResponse & {
+    Data: {}
+    Error: {
+      Code: string
+      Message: string
+      Details: {
+        ErrorCode: string
+        ErrorDescription: string
+      }[]
+    }
+  }
 }
 
 export {}

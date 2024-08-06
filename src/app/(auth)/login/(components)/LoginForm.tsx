@@ -12,7 +12,7 @@ import {Input} from '@/components/ui/input'
 import {useLogin} from '../(hooks)/useLogin'
 
 export default function LoginForm() {
-  const {form, handleLogin} = useLogin()
+  const {form, handleLogin, isPending} = useLogin()
   return (
     <Form {...form}>
       <form onSubmit={handleLogin} className="flex flex-col gap-2">
@@ -49,8 +49,11 @@ export default function LoginForm() {
           )}
         />
         <div className="mt-2">
-          <Button type="submit" className="w-full bg-blue-800">
-            Continue
+          <Button
+            disabled={isPending}
+            type="submit"
+            className="w-full bg-blue-800">
+            {isPending ? 'Loading...' : 'Continue'}
           </Button>
         </div>
       </form>
