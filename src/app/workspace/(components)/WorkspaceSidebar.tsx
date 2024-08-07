@@ -5,7 +5,7 @@ import WorkspaceNavLinkList from './WorkspaceNavLinkList'
 
 export default function WorkspaceSidebar() {
   return (
-    <section className="w-[18%] fixed left-0 hidden md:block border-r  z-10 h-[100%] shadow-sm max-w-[18%] max-h-[100%] bg-white">
+    <section className="w-[18%] xl:w-[13%] fixed left-0 hidden md:block border-r  z-10 h-[100%] shadow-sm max-w-[18%] max-h-[100%] bg-white">
       <div
         id="brand-region"
         className="p-3 flex gap-2 justify-center items-center">

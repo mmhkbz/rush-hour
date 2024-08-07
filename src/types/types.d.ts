@@ -84,6 +84,7 @@ declare global {
     StaffID: string
     RoleType: RoleType
     TeamName: string
+    TeamID: string
   }
 }
 

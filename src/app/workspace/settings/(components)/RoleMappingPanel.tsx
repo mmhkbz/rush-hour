@@ -1,8 +1,8 @@
-import {Button} from '@/components/ui/button'
 import {Card, CardContent} from '@/components/ui/card'
 import {Separator} from '@/components/ui/separator'
-import {IconCirclePlus, IconUser} from '@tabler/icons-react'
 import RoleMappingList from './RoleMappingList'
+import RoleCreateModal from './RoleCreateModal'
+import {IconUser} from '@tabler/icons-react'
 
 export default function RoleMappingPanel() {
   return (
@@ -13,10 +13,7 @@ export default function RoleMappingPanel() {
             <IconUser width={24} height={24} />
             Role Map Setting
           </h3>
-          <Button className="bg-blue-800 flex items-center gap-2">
-            <IconCirclePlus width={16} height={16} />
-            Mapping
-          </Button>
+          <RoleCreateModal />
         </div>
         <Separator />
 

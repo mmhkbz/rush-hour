@@ -1,3 +1,4 @@
+'use client'
 import {Badge} from '@/components/ui/badge'
 import {Button} from '@/components/ui/button'
 import {Input} from '@/components/ui/input'
@@ -10,8 +11,24 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import {IconTrash} from '@tabler/icons-react'
+import {useGetRoleList} from '../(hooks)/useGetRoleList'
+import {useEffect} from 'react'
+import {useToast} from '@/components/ui/use-toast'
 
 export default function RoleMappingList() {
+  const {data: roles, isPending, error} = useGetRoleList()
+  const {toast} = useToast()
+
+  useEffect(() => {
+    if (error) {
+      toast({
+        title: 'Error',
+        description: 'Failed to get role mappings!',
+        variant: 'destructive',
+      })
+    }
+  }, [error, toast])
+
   return (
     <div className="py-5">
       <h6 className="text-[14px] text-blue-800">Role Mapping List</h6>
@@ -26,33 +43,38 @@ export default function RoleMappingList() {
         <TableHeader>
           <TableRow>
             <TableHead className="border">Employee Id</TableHead>
+            <TableHead className="border">Team Name</TableHead>
             <TableHead className="border">Role</TableHead>
             <TableHead className="border">Action</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
-          <TableRow>
-            <TableCell className="border">0123456</TableCell>
-            <TableCell className="border">
-              <Badge className="bg-red-800">Admin</Badge>
-            </TableCell>
-            <TableCell className="flex justify-center items-center">
-              <Button size="sm" variant="outline">
-                <IconTrash width={16} height={16} />
-              </Button>
-            </TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell className="border">0123456</TableCell>
-            <TableCell className="border">
-              <Badge className="bg-blue-800">User</Badge>
-            </TableCell>
-            <TableCell className="flex justify-center items-center">
-              <Button size="sm" variant="outline">
-                <IconTrash width={16} height={16} />
-              </Button>
-            </TableCell>
-          </TableRow>
+          {!roles && !isPending && (
+            <TableRow>
+              <TableCell colSpan={3}>
+                <h6 className="text-neutral-500 text-center">
+                  No Records to Display
+                </h6>
+              </TableCell>
+            </TableRow>
+          )}
+          {roles &&
+            (roles as RoleMapping[]).map((role) => (
+              <TableRow key={role.Id}>
+                <TableCell className="border">{role.StaffID}</TableCell>
+                <TableCell className="border">{role.TeamName || '-'}</TableCell>
+                <TableCell className="border">
+                  <Badge className="bg-red-800">
+                    {role.RoleType === 1 ? 'Admin' : 'User'}
+                  </Badge>
+                </TableCell>
+                <TableCell className="flex justify-center items-center">
+                  <Button size="sm" variant="outline">
+                    <IconTrash width={16} height={16} />
+                  </Button>
+                </TableCell>
+              </TableRow>
+            ))}
         </TableBody>
       </Table>
     </div>

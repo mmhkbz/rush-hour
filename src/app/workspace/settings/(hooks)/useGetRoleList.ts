@@ -6,4 +6,5 @@ export const useGetRoleList = () =>
   useQuery({
     queryKey: QUERY_KEYS.ROLE_LIST,
     queryFn: getRoleList,
+    select: (response) => response.Data,
   })

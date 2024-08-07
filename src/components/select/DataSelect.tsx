@@ -14,7 +14,7 @@ import {Fragment} from 'react'
 type DataSelectPropsType = SelectProps & {
   options: {
     label: string
-    value: string
+    value: string | number
   }[]
   label: string
   placeholder?: string
@@ -39,7 +39,7 @@ export function DataSelect(props: DataSelectPropsType) {
           <SelectLabel>{label}</SelectLabel>
           {options.map((option) => (
             <Fragment key={option.value}>
-              <SelectItem key={option.value} value={option.value}>
+              <SelectItem key={option.value} value={option.value.toString()}>
                 {option.label}
               </SelectItem>
               <Separator />
