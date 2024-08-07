@@ -20,13 +20,21 @@ import {
 import {Input} from '@/components/ui/input'
 import {IconCirclePlus} from '@tabler/icons-react'
 import {useState} from 'react'
-import {useForm} from 'react-hook-form'
 import RoleSelectInput from '../../(components)/RoleSelectInput'
 import TeamSelect from '@/components/select/TeamSelect'
+import {useCreateRoleMap} from '../(hooks)/useCreateRoleMap'
+import {useQueryClient} from '@tanstack/react-query'
+import {QUERY_KEYS} from '@/configs'
 
 export default function RoleCreateModal() {
   const [showRoleModal, setShowRoleModal] = useState(false)
-  const form = useForm()
+  const queryClient = useQueryClient()
+  const {form, handleCreate, isPending} = useCreateRoleMap(() => {
+    setShowRoleModal(false)
+    queryClient.invalidateQueries({
+      queryKey: QUERY_KEYS.ROLE_LIST,
+    })
+  })
   return (
     <AlertDialog open={showRoleModal} onOpenChange={setShowRoleModal}>
       <Button
@@ -43,9 +51,9 @@ export default function RoleCreateModal() {
           </AlertDialogDescription>
         </AlertDialogHeader>
         <Form {...form}>
-          <form className="flex flex-col gap-3">
+          <form onSubmit={handleCreate} className="flex flex-col gap-3">
             <FormField
-              name="employeeId"
+              name="staffId"
               render={({field}) => (
                 <FormItem>
                   <FormLabel>Employee Id</FormLabel>
@@ -61,13 +69,13 @@ export default function RoleCreateModal() {
               )}
             />
             <FormField
-              name="role"
+              name="roleType"
               render={({field}) => (
                 <FormItem>
                   <FormLabel>Role</FormLabel>
                   <FormControl>
                     <RoleSelectInput
-                      onSelect={(value) => field.onChange(value)}
+                      onSelect={(value) => field.onChange(Number(value))}
                     />
                   </FormControl>
                   <FormMessage />
@@ -75,7 +83,7 @@ export default function RoleCreateModal() {
               )}
             />
             <FormField
-              name="teamName"
+              name="teamId"
               render={({field}) => (
                 <FormItem>
                   <FormLabel>Team</FormLabel>
@@ -86,12 +94,17 @@ export default function RoleCreateModal() {
                 </FormItem>
               )}
             />
+            <AlertDialogFooter>
+              <AlertDialogCancel className="px-8">Cancel</AlertDialogCancel>
+              <Button
+                type="submit"
+                disabled={isPending}
+                className="px-8 bg-blue-800">
+                {isPending ? 'Loading...' : 'Continue'}
+              </Button>
+            </AlertDialogFooter>
           </form>
         </Form>
-        <AlertDialogFooter>
-          <AlertDialogCancel className="px-8">Cancel</AlertDialogCancel>
-          <Button className="px-8 bg-blue-800">Continue</Button>
-        </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
   )
