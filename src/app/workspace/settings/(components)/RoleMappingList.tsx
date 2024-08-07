@@ -18,6 +18,7 @@ import {cn} from '@/libs/utils'
 import DeleteRoleMapConfirmModal from './DeleteRoleMapConfirmModal'
 import RoleCreateModal from './RoleCreateModal'
 import {useDeleteRoleMap} from '../(hooks)/useDeleteRoleMap'
+import {selectInfo, useUserStore} from '@/store'
 
 export default function RoleMappingList() {
   const {data: roles, isPending, error} = useGetRoleList()
@@ -36,6 +37,7 @@ export default function RoleMappingList() {
       })
     }
   )
+  const accountInfo = useUserStore(selectInfo)
 
   useEffect(() => {
     if (error) {
@@ -95,13 +97,24 @@ export default function RoleMappingList() {
                     <IconEdit width={16} height={16} />
                   </Button>
                   <Button
-                    onClick={() =>
+                    onClick={() => {
+                      // unable to delete own account mapping
+                      if (
+                        accountInfo &&
+                        accountInfo?.employeeId === role.StaffID
+                      ) {
+                        return toast({
+                          title: 'Error',
+                          description: 'Unauthorized to delete!',
+                          variant: 'destructive',
+                        })
+                      }
                       setDeleteModalState({
                         show: true,
                         staffId: role.StaffID,
                         id: role.Id,
                       })
-                    }
+                    }}
                     variant="destructive">
                     <IconTrash width={16} height={16} />
                   </Button>
