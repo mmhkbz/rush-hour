@@ -2,7 +2,6 @@
 import {IconHome, IconList, IconLogout, IconSettings} from '@tabler/icons-react'
 import WorkspaceNavLink from './WorkspaceNavLink'
 import {usePathname} from 'next/navigation'
-import {useEffect, useState} from 'react'
 import {setShowLogoutConfirmModalAction, useAppState} from '@/store'
 
 const MENUS = [
@@ -29,16 +28,7 @@ type Props = {
 
 export default function WorkspaceNavLinkList({onAfterClick}: Props) {
   const pathname = usePathname()
-  const [isClient, setIsClient] = useState(false)
   const dispatchShowLogoutConfirm = useAppState(setShowLogoutConfirmModalAction)
-
-  useEffect(() => {
-    setIsClient(true)
-  }, [])
-
-  if (!isClient) {
-    return
-  }
 
   return (
     <ul className="flex flex-col ">

@@ -12,7 +12,6 @@ import Image from 'next/image'
 import WorkspaceNavLinkList from './WorkspaceNavLinkList'
 import {HeartIcon} from '@radix-ui/react-icons'
 import {useDisclosure} from '@mantine/hooks'
-import {useEffect, useState} from 'react'
 
 const Brand = () => {
   return (
@@ -25,15 +24,6 @@ const Brand = () => {
 
 export default function WorkspaceHeader() {
   const [opened, {open, close}] = useDisclosure()
-  const [isClient, setIsClient] = useState(false)
-
-  useEffect(() => {
-    setIsClient(true)
-  }, [])
-
-  if (!isClient) {
-    return null
-  }
 
   return (
     <header

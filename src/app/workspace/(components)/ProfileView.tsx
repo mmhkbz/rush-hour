@@ -4,19 +4,10 @@ import {Card, CardContent, CardTitle} from '@/components/ui/card'
 import {Separator} from '@/components/ui/separator'
 import {selectInfo, useUserStore} from '@/store'
 import {format} from 'date-fns'
-import {useEffect, useState} from 'react'
 
 export default function ProfileView() {
-  const [isClient, setIsClient] = useState(false)
   const personalInfo = useUserStore(selectInfo)
 
-  useEffect(() => {
-    setIsClient(true)
-  }, [setIsClient])
-
-  if (!isClient) {
-    return null
-  }
   return (
     <Card className="col-span-3 md:col-span-1 ">
       <CardContent className="p-5 flex flex-col gap-3">
