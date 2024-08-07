@@ -139,7 +139,17 @@ export function useLogin() {
         })
       }
     }
-  }, [isEnabledGetRole, watchedEmployeeId, roleMapping, toast])
+  }, [
+    isEnabledGetRole,
+    watchedEmployeeId,
+    roleMapping,
+    toast,
+    dispatchSetInfo,
+    dispatchSetToken,
+    dispatchSetRole,
+    loginResponse,
+    replace,
+  ])
 
   return {form, handleLogin, isPending}
 }
