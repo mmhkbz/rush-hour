@@ -34,39 +34,22 @@ import {useCreateTask} from '../hooks/useCreateTask'
 import {Button} from '@/components/ui/button'
 import TaskCategoryListSelect from '@/components/select/TaskCategoryListSelect'
 import SubTaskCategoryListSelect from '@/components/select/SubTaskCategoryListSelect'
-import {TaskLevelSelect, TaskStatusSelect} from '@/components/select'
+import {
+  DateTimePickerSelect,
+  TaskLevelSelect,
+  TaskStatusSelect,
+} from '@/components/select'
 import ProjectListSelect from '@/components/select/ProjectListSelect'
 import DepartmentListSelect from '@/components/select/DepartmentListSelect'
 import {Textarea} from '@/components/ui/textarea'
 
-// employee_id: string
-//   employee_name: string
-//   task_name: string
-//   remark: string
-//   task_category_id: string
-//   task_category_name: string
-//   sub_task_category_id: string
-//   sub_task_category_name: string
-//   task_start: Date
-//   task_end: Date
-//   task_status_id: string
-//   task_status_name: string
-//   task_level_id: string
-//   task_level_name: string
-//   project_id: string
-//   project_name: string
-//   team_id: string
-//   team_name: string
-//   department_id: string
-//   department_name: string
-
+// TODO : refactor and split into smaller components
 export function NewTaskModal() {
   const showModal = useAppState(selectShowNewTaskModal)
   const dispatchShowModal = useAppState(setShowNewTaskModalAction)
   const {form, isPending, handleCreate} = useCreateTask()
-  const {setValue} = form
-
-  console.log(form.formState.errors)
+  const {setValue, watch} = form
+  const watchedStartTime = watch('task_start') // for binding in end time's disabled status
 
   return (
     <AlertDialog open={showModal} onOpenChange={dispatchShowModal}>
@@ -99,10 +82,48 @@ export function NewTaskModal() {
                 </FormItem>
               )}
             />
+
             <Accordion type="single" collapsible className="w-full">
               <AccordionItem value="item-1">
                 <AccordionTrigger>Continue for detail</AccordionTrigger>
-                <AccordionContent className="max-h-[300px] overflow-scroll p-1">
+                <AccordionContent className="max-h-[300px] gap-2 overflow-scroll p-1">
+                  <FormField
+                    name="task_start"
+                    render={({field}) => (
+                      <FormItem>
+                        <FormLabel>Start time</FormLabel>
+                        <FormControl>
+                          <DateTimePickerSelect
+                            value={field.value}
+                            onChange={field.onChange}
+                            label="Pick start date-time"
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    name="task_end"
+                    render={({field}) => (
+                      <FormItem>
+                        <FormLabel>End time </FormLabel>
+                        <FormControl>
+                          <DateTimePickerSelect
+                            value={field.value}
+                            onChange={field.onChange}
+                            label="Pick end date-time"
+                            disabled={
+                              watchedStartTime
+                                ? {before: watchedStartTime}
+                                : undefined
+                            }
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
                   <FormField
                     name="task_status_id"
                     render={({field}) => (

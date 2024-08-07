@@ -3,6 +3,7 @@ import {useToast} from '@/components/ui/use-toast'
 import {selectInfo, useUserStore} from '@/store'
 import {zodResolver} from '@hookform/resolvers/zod'
 import {useMutation} from '@tanstack/react-query'
+import {addHours} from 'date-fns'
 import {useForm} from 'react-hook-form'
 import {z} from 'zod'
 
@@ -72,8 +73,10 @@ export function useCreateTask() {
   const form = useForm<CreateTaskFormType>({
     resolver: zodResolver(createTaskSchema),
     defaultValues: {
-      remark: '',
+      remark: '-',
       task_name: '',
+      task_start: new Date(),
+      task_end: addHours(new Date(), 1),
     },
   })
   const userInfo = useUserStore(selectInfo)
