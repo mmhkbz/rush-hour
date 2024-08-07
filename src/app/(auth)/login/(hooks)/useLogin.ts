@@ -7,7 +7,14 @@ import {useMutation} from '@tanstack/react-query'
 import {login, LoginSuccessResponse} from '@/api/ad-auth'
 import {useToast} from '@/components/ui/use-toast'
 import {useRouter} from 'next/navigation'
-import {setInfoAction, setTokenAction, useUserStore} from '@/store'
+import {
+  setInfoAction,
+  setRoleActon,
+  setTokenAction,
+  useUserStore,
+} from '@/store'
+import {useEffect, useState} from 'react'
+import {useGetRoleByStaffId} from '@/hooks'
 
 const loginFormSchema = z.object({
   employeeId: z
@@ -37,7 +44,11 @@ export function useLogin() {
     },
   })
   const {handleSubmit} = form
-  const {mutateAsync, isPending} = useMutation({
+  const {
+    mutateAsync,
+    isPending,
+    data: loginResponse,
+  } = useMutation({
     mutationKey: ['login'],
     mutationFn: login,
   })
@@ -45,8 +56,16 @@ export function useLogin() {
   const {replace} = useRouter()
   const dispatchSetToken = useUserStore(setTokenAction)
   const dispatchSetInfo = useUserStore(setInfoAction)
+  const dispatchSetRole = useUserStore(setRoleActon)
+  const [isEnabledGetRole, setIsEnabledGetRole] = useState(false)
+  const watchedEmployeeId = form.watch('employeeId')
+  const {data: roleMapping} = useGetRoleByStaffId(
+    watchedEmployeeId,
+    isEnabledGetRole
+  )
 
   const handleLogin = handleSubmit(async (formData) => {
+    setIsEnabledGetRole(false)
     const response = await mutateAsync({
       login_id: formData.employeeId.toString(),
       password: formData.password,
@@ -72,31 +91,55 @@ export function useLogin() {
     }
     // Success
     if (response.Data && !response.Error) {
-      const castedResponse = response as LoginSuccessResponse
-      // bind to global state
-      dispatchSetToken({
-        token: {
-          access_token: castedResponse.Data.accessToken,
-          refresh_token: castedResponse.Data.RefreshToken,
-        },
-      })
-      // bind to global state
-      dispatchSetInfo({
-        info: {
-          employeeId: castedResponse.Data.login_id,
-          name: castedResponse.Data.user_name,
-          position: castedResponse.Data.position,
-        },
-      })
-      // fetch current user role
-      // to keep writing
-      toast({
-        title: 'Success',
-        description: 'Successfully logged in!',
-      })
-      replace('/workspace')
+      setIsEnabledGetRole(true)
     }
   })
+
+  // listener for role mapping
+  useEffect(() => {
+    if (isEnabledGetRole && watchedEmployeeId && roleMapping) {
+      if (roleMapping.Data && roleMapping.Data.StaffID) {
+        const castedResponse = loginResponse as LoginSuccessResponse
+        // bind to global state
+        dispatchSetToken({
+          token: {
+            access_token: castedResponse.Data.accessToken,
+            refresh_token: castedResponse.Data.RefreshToken,
+          },
+        })
+        // bind to global state
+        dispatchSetInfo({
+          info: {
+            employeeId: castedResponse.Data.login_id,
+            name: castedResponse.Data.user_name,
+            position: castedResponse.Data.position,
+            teamId: roleMapping.Data.TeamID,
+            teamName: roleMapping.Data.TeamName,
+          },
+        })
+        // bind role to global state
+        dispatchSetRole({
+          role: {
+            id: roleMapping.Data.Id,
+            name: roleMapping.Data.RoleType === 1 ? 'Admin' : 'User',
+          },
+        })
+        toast({
+          title: 'Success',
+          description: 'Successfully logged in!',
+        })
+        replace('/workspace')
+      } else {
+        // close get listener for employee id change possiblity
+        setIsEnabledGetRole(false)
+        toast({
+          title: 'Error',
+          description: 'Please contact admin team to access this application!',
+          variant: 'destructive',
+        })
+      }
+    }
+  }, [isEnabledGetRole, watchedEmployeeId, roleMapping, toast])
 
   return {form, handleLogin, isPending}
 }

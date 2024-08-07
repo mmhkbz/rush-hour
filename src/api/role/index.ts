@@ -1,5 +1,5 @@
 export * from './getRoleList'
-export * from './getRoleById'
+export * from './getRoleByStaffId'
 export * from './createRoleMap'
 export * from './deleteRoleMap'
 export * from './updateRoleMap'
