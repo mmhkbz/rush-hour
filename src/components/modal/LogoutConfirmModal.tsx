@@ -16,11 +16,12 @@ import {
   AlertDialogTitle,
 } from '../ui/alert-dialog'
 import {useLogout} from '@/hooks'
+import {Button} from '../ui/button'
 
 export function LogoutConfirmModal() {
   const showLogoutConfirmModal = useAppState(selectShowLogoutConfirmModal)
   const dispatchShowLogoutConfirm = useAppState(setShowLogoutConfirmModalAction)
-  const logout = useLogout()
+  const {handleLogout, isPending} = useLogout()
   return (
     <AlertDialog
       open={showLogoutConfirmModal}
@@ -34,9 +35,15 @@ export function LogoutConfirmModal() {
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel className="px-8">No</AlertDialogCancel>
-          <AlertDialogAction onClick={logout} className="px-8 bg-blue-800">
-            Yes
-          </AlertDialogAction>
+          <Button
+            disabled={isPending}
+            onClick={async () => {
+              await handleLogout()
+              dispatchShowLogoutConfirm(false)
+            }}
+            className="px-8 bg-blue-800">
+            {isPending ? 'Loading...' : 'Yes'}
+          </Button>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
