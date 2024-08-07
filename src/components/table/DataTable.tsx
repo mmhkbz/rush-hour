@@ -19,12 +19,19 @@ import {
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
+  emptyLabel?: string
+  isPending?: boolean
+  pendingLabel?: string
 }
 
-export function DataTable<TData, TValue>({
-  columns,
-  data,
-}: DataTableProps<TData, TValue>) {
+export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
+  const {
+    data,
+    columns,
+    emptyLabel = 'No result to display!',
+    isPending,
+    pendingLabel = 'Loading',
+  } = props
   const table = useReactTable({
     data,
     columns,
@@ -44,7 +51,7 @@ export function DataTable<TData, TValue>({
                       ? null
                       : flexRender(
                           header.column.columnDef.header,
-                          header.getContext(),
+                          header.getContext()
                         )}
                   </TableHead>
                 )
@@ -53,22 +60,34 @@ export function DataTable<TData, TValue>({
           ))}
         </TableHeader>
         <TableBody>
-          {table.getRowModel().rows?.length ? (
-            table.getRowModel().rows.map((row) => (
-              <TableRow
-                key={row.id}
-                data-state={row.getIsSelected() && 'selected'}>
-                {row.getVisibleCells().map((cell) => (
-                  <TableCell className="border-l" key={cell.id}>
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+          {table.getRowModel().rows?.length
+            ? table.getRowModel().rows.map((row) => (
+                <TableRow
+                  key={row.id}
+                  data-state={row.getIsSelected() && 'selected'}>
+                  {row.getVisibleCells().map((cell) => (
+                    <TableCell className="border-l" key={cell.id}>
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext()
+                      )}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))
+            : !isPending && (
+                <TableRow>
+                  <TableCell
+                    colSpan={columns.length}
+                    className="h-24 text-center">
+                    {emptyLabel}
                   </TableCell>
-                ))}
-              </TableRow>
-            ))
-          ) : (
+                </TableRow>
+              )}
+          {isPending && (
             <TableRow>
               <TableCell colSpan={columns.length} className="h-24 text-center">
-                No results.
+                {pendingLabel}
               </TableCell>
             </TableRow>
           )}

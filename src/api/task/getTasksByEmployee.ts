@@ -1,7 +1,7 @@
 import {coreAPIClient} from '@/libs'
 import {AxiosResponse} from 'axios'
 
-type GetTasksByEmployeeParamType = {
+export type GetTasksByEmployeeParamType = {
   employee_id: string
   date: string
   task_status_id: string

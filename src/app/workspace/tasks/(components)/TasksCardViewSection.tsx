@@ -1,7 +1,13 @@
 import {Separator} from '@/components/ui/separator'
 import TaskCard from './TaskCard'
 
-export default function TasksCardViewSection() {
+type TasksCardViewSectionProps = {
+  tasks: TaskEntity[]
+  isPending: boolean
+}
+
+export default function TasksCardViewSection(props: TasksCardViewSectionProps) {
+  const {tasks, isPending} = props
   return (
     <div className="py-5 flex flex-col gap-5">
       <div>
