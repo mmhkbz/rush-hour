@@ -14,7 +14,6 @@ export default function RoleMappingPanel() {
           </h3>
         </div>
         <Separator />
-
         <RoleMappingList />
       </CardContent>
     </Card>

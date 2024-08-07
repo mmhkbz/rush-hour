@@ -1,6 +1,6 @@
-import {DataSelect} from '@/components/select'
+import {DataSelect, DataSelectPropsType} from '@/components/select'
 
-export default function TaskStatusSelect() {
+export default function TaskStatusSelect(props: Partial<DataSelectPropsType>) {
   return (
     <DataSelect
       placeholder="Filter by status"
@@ -24,6 +24,7 @@ export default function TaskStatusSelect() {
         },
       ]}
       className="w-[150px]"
+      {...props}
     />
   )
 }

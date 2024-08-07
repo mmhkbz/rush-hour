@@ -1,3 +1,4 @@
+'use client'
 import {SelectProps} from '@radix-ui/react-select'
 import {
   Select,
@@ -9,17 +10,24 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import {Separator} from '../ui/separator'
-import {Fragment} from 'react'
+import {cache, Fragment} from 'react'
 
-type DataSelectPropsType = SelectProps & {
-  options: {
-    label: string
-    value: string | number
-  }[]
+type LabelAndValueType = {
+  label: string
+  value: string | number
+}
+
+export type DataSelectPropsType = SelectProps & {
+  options: LabelAndValueType[]
   label: string
   placeholder?: string
   className?: string
+  onAfterChange?: (value: LabelAndValueType) => void
 }
+
+const getIndex = cache((items: LabelAndValueType[], value: string) =>
+  items.findIndex((option) => option.value === value)
+)
 
 export function DataSelect(props: DataSelectPropsType) {
   const {
@@ -27,10 +35,23 @@ export function DataSelect(props: DataSelectPropsType) {
     label,
     placeholder = 'Select items',
     className = '',
+    onAfterChange,
+    onValueChange,
     ...otherProps
   } = props
+
   return (
-    <Select {...otherProps}>
+    <Select
+      onValueChange={(value) => {
+        const foundIndex = getIndex(options, value)
+        onValueChange && onValueChange(value)
+        onAfterChange &&
+          onAfterChange({
+            value,
+            label: options[foundIndex].label,
+          })
+      }}
+      {...otherProps}>
       <SelectTrigger className={className}>
         <SelectValue placeholder={placeholder} />
       </SelectTrigger>
@@ -39,7 +60,10 @@ export function DataSelect(props: DataSelectPropsType) {
           <SelectLabel>{label}</SelectLabel>
           {options.map((option) => (
             <Fragment key={option.value}>
-              <SelectItem key={option.value} value={option.value.toString()}>
+              <SelectItem
+                key={option.value}
+                onClick={() => onAfterChange && onAfterChange(option)}
+                value={option.value.toString()}>
                 {option.label}
               </SelectItem>
               <Separator />

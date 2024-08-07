@@ -88,7 +88,9 @@ export default function RoleCreateModal() {
                 <FormItem>
                   <FormLabel>Team</FormLabel>
                   <FormControl>
-                    <TeamSelect onSelect={(value) => field.onChange(value)} />
+                    <TeamSelect
+                      onValueChange={(value) => field.onChange(value)}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

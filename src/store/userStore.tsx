@@ -11,8 +11,8 @@ type UserStoreStateType = {
     name: string
     position: string
     profileURL?: string
-    teamId?: string
-    teamName?: string
+    teamId: string
+    teamName: string
   }
   role?: {
     id: number | string

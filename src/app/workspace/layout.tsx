@@ -1,7 +1,8 @@
 import {PropsWithChildren} from 'react'
 import WorkspaceSidebar from './(components)/WorkspaceSidebar'
 import WorkspaceHeader from './(components)/WorkspaceHeader'
-import {LogoutConfirmModal, NewTaskModal} from '@/components/modal'
+import {LogoutConfirmModal} from '@/components/modal'
+import {NewTaskModal} from './tasks/(components)/NewTaskModal'
 
 export default function WorkspaceLayout(props: PropsWithChildren) {
   const {children} = props
