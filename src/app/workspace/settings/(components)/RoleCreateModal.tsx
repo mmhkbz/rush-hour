@@ -41,7 +41,7 @@ export default function RoleCreateModal() {
         className="flex gap-2 items-center"
         onClick={() => setShowRoleModal(true)}>
         <IconCirclePlus width={16} height={16} />
-        Mapping
+        Role Map
       </Button>
       <AlertDialogContent>
         <AlertDialogHeader>

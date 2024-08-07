@@ -10,7 +10,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import {IconTrash} from '@tabler/icons-react'
+import {IconEdit, IconTrash} from '@tabler/icons-react'
 import {useGetRoleList} from '../(hooks)/useGetRoleList'
 import {useEffect, useState} from 'react'
 import {useToast} from '@/components/ui/use-toast'
@@ -49,15 +49,12 @@ export default function RoleMappingList() {
 
   return (
     <div className="py-3">
-      <div className="w-[100%] flex justify-between items-center">
-        <div className="py-3">
-          <h6 className="text-[14px] text-blue-800">Role Mapping List</h6>
-          <Input
-            type="search"
-            className="w-[200px]"
-            placeholder="Filter by employee id"
-          />
-        </div>
+      <div className="w-[100%] py-3 flex justify-between items-center">
+        <Input
+          type="search"
+          className="w-[200px]"
+          placeholder="Filter by employee id"
+        />
         <RoleCreateModal />
       </div>
       <Table className="w-[100%] border">
@@ -66,7 +63,7 @@ export default function RoleMappingList() {
             <TableHead className="border">Employee Id</TableHead>
             <TableHead className="border">Team Name</TableHead>
             <TableHead className="border">Role</TableHead>
-            <TableHead className="border">Action</TableHead>
+            <TableHead className="border text-center">Action</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -93,7 +90,10 @@ export default function RoleMappingList() {
                     {role.RoleType === 1 ? 'Admin' : 'User'}
                   </Badge>
                 </TableCell>
-                <TableCell className="flex justify-center items-center">
+                <TableCell className="flex gap-3 justify-center items-center">
+                  <Button variant="outline">
+                    <IconEdit width={16} height={16} />
+                  </Button>
                   <Button
                     onClick={() =>
                       setDeleteModalState({
@@ -102,8 +102,7 @@ export default function RoleMappingList() {
                         id: role.Id,
                       })
                     }
-                    size="sm"
-                    variant="outline">
+                    variant="destructive">
                     <IconTrash width={16} height={16} />
                   </Button>
                 </TableCell>
