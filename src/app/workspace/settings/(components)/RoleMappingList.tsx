@@ -12,13 +12,30 @@ import {
 } from '@/components/ui/table'
 import {IconTrash} from '@tabler/icons-react'
 import {useGetRoleList} from '../(hooks)/useGetRoleList'
-import {useEffect} from 'react'
+import {useEffect, useState} from 'react'
 import {useToast} from '@/components/ui/use-toast'
 import {cn} from '@/libs/utils'
+import DeleteRoleMapConfirmModal from './DeleteRoleMapConfirmModal'
+import RoleCreateModal from './RoleCreateModal'
+import {useDeleteRoleMap} from '../(hooks)/useDeleteRoleMap'
 
 export default function RoleMappingList() {
   const {data: roles, isPending, error} = useGetRoleList()
   const {toast} = useToast()
+  const [deleteModalState, setDeleteModalState] = useState<{
+    show: boolean
+    id?: number
+    staffId?: string
+  }>({
+    show: false,
+  })
+  const {mutateAsync: deleteRoleMap, isPending: isDeleting} = useDeleteRoleMap(
+    () => {
+      setDeleteModalState({
+        show: false,
+      })
+    }
+  )
 
   useEffect(() => {
     if (error) {
@@ -31,16 +48,19 @@ export default function RoleMappingList() {
   }, [error, toast])
 
   return (
-    <div className="py-5">
-      <h6 className="text-[14px] text-blue-800">Role Mapping List</h6>
-      <div className="py-3">
-        <Input
-          type="search"
-          className="w-[200px]"
-          placeholder="Filter by employee id"
-        />
+    <div className="py-3">
+      <div className="w-[100%] flex justify-between items-center">
+        <div className="py-3">
+          <h6 className="text-[14px] text-blue-800">Role Mapping List</h6>
+          <Input
+            type="search"
+            className="w-[200px]"
+            placeholder="Filter by employee id"
+          />
+        </div>
+        <RoleCreateModal />
       </div>
-      <Table className="w-[100%] border md:w-[350px]">
+      <Table className="w-[100%] border">
         <TableHeader>
           <TableRow>
             <TableHead className="border">Employee Id</TableHead>
@@ -74,7 +94,16 @@ export default function RoleMappingList() {
                   </Badge>
                 </TableCell>
                 <TableCell className="flex justify-center items-center">
-                  <Button size="sm" variant="outline">
+                  <Button
+                    onClick={() =>
+                      setDeleteModalState({
+                        show: true,
+                        staffId: role.StaffID,
+                        id: role.Id,
+                      })
+                    }
+                    size="sm"
+                    variant="outline">
                     <IconTrash width={16} height={16} />
                   </Button>
                 </TableCell>
@@ -82,6 +111,14 @@ export default function RoleMappingList() {
             ))}
         </TableBody>
       </Table>
+      {/* Delete confirm Modal */}
+      <DeleteRoleMapConfirmModal
+        closeModal={() => setDeleteModalState({show: false})}
+        isPending={isDeleting}
+        onContinue={() => deleteRoleMap(deleteModalState.id || 0)}
+        showModal={deleteModalState.show}
+        staffId={deleteModalState.staffId || ''}
+      />
     </div>
   )
 }

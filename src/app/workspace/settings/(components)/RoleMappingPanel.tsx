@@ -1,7 +1,6 @@
 import {Card, CardContent} from '@/components/ui/card'
 import {Separator} from '@/components/ui/separator'
 import RoleMappingList from './RoleMappingList'
-import RoleCreateModal from './RoleCreateModal'
 import {IconUser} from '@tabler/icons-react'
 
 export default function RoleMappingPanel() {
@@ -13,7 +12,6 @@ export default function RoleMappingPanel() {
             <IconUser width={24} height={24} />
             Role Map Setting
           </h3>
-          <RoleCreateModal />
         </div>
         <Separator />
 
