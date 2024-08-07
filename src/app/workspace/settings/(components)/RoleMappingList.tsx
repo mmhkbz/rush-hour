@@ -14,6 +14,7 @@ import {IconTrash} from '@tabler/icons-react'
 import {useGetRoleList} from '../(hooks)/useGetRoleList'
 import {useEffect} from 'react'
 import {useToast} from '@/components/ui/use-toast'
+import {cn} from '@/libs/utils'
 
 export default function RoleMappingList() {
   const {data: roles, isPending, error} = useGetRoleList()
@@ -64,7 +65,11 @@ export default function RoleMappingList() {
                 <TableCell className="border">{role.StaffID}</TableCell>
                 <TableCell className="border">{role.TeamName || '-'}</TableCell>
                 <TableCell className="border">
-                  <Badge className="bg-red-800">
+                  <Badge
+                    className={cn({
+                      'bg-red-800': role.RoleType === 1,
+                      'bg-blue-800': role.RoleType === 2,
+                    })}>
                     {role.RoleType === 1 ? 'Admin' : 'User'}
                   </Badge>
                 </TableCell>

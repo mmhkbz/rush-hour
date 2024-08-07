@@ -22,6 +22,7 @@ import {IconCirclePlus} from '@tabler/icons-react'
 import {useState} from 'react'
 import {useForm} from 'react-hook-form'
 import RoleSelectInput from '../../(components)/RoleSelectInput'
+import TeamSelect from '@/components/select/TeamSelect'
 
 export default function RoleCreateModal() {
   const [showRoleModal, setShowRoleModal] = useState(false)
@@ -79,9 +80,7 @@ export default function RoleCreateModal() {
                 <FormItem>
                   <FormLabel>Team</FormLabel>
                   <FormControl>
-                    <RoleSelectInput
-                      onSelect={(value) => field.onChange(value)}
-                    />
+                    <TeamSelect onSelect={(value) => field.onChange(value)} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

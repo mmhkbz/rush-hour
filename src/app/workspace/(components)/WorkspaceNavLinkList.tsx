@@ -31,7 +31,7 @@ export default function WorkspaceNavLinkList({onAfterClick}: Props) {
   const dispatchShowLogoutConfirm = useAppState(setShowLogoutConfirmModalAction)
 
   return (
-    <ul className="flex flex-col ">
+    <ul className="flex flex-col gap-2 ">
       {MENUS.map((menu) => {
         return (
           <WorkspaceNavLink
