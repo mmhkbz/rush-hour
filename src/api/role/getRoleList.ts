@@ -1,6 +1,8 @@
-import {roleClient} from '@/libs'
+import {ROLE_API_URL} from '@/configs'
 
 export const getRoleList = async () => {
-  const response = await roleClient.get('/Role/GetRoleList')
-  return response
+  const response = await fetch(`${ROLE_API_URL}/GetRoleList`).then((res) =>
+    res.json()
+  )
+  return response as APIDataResponse<RoleMapping[]>
 }

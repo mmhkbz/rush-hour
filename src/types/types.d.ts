@@ -79,6 +79,12 @@ declare global {
     department_name: string
     log_date: Date
   }
+  export type RoleMapping = {
+    Id: number
+    StaffID: string
+    RoleType: RoleType
+    TeamName: string
+  }
 }
 
 export {}
