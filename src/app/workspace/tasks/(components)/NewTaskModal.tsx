@@ -10,6 +10,7 @@ import {
 } from '@/components/ui/alert-dialog'
 import {
   selectInfo,
+  selectRole,
   selectShowNewTaskModal,
   setShowNewTaskModalAction,
   useAppState,
@@ -53,20 +54,34 @@ export function NewTaskModal() {
   const dispatchShowModal = useAppState(setShowNewTaskModalAction)
   const userInfo = useUserStore(selectInfo)
   const queryClient = useQueryClient()
+  const roleInfo = useUserStore(selectRole)
   const {form, isPending, handleCreate} = useCreateTask(() => {
     dispatchShowModal(false)
-    queryClient.invalidateQueries({
-      queryKey: QUERY_KEYS.TASKS_BY_EMPLOYEE({
-        date: '',
-        employee_id: userInfo ? userInfo.employeeId : '',
-        task_level_id: '',
-        task_status_id: '',
-      }),
-    })
+    form.reset()
+    if (roleInfo?.isAdmin) {
+      queryClient.invalidateQueries({
+        queryKey: QUERY_KEYS.TASKS_BY_TEAM({
+          date: new Date().toDateString(),
+          team_id: userInfo ? userInfo.teamId || '' : '',
+          task_level_id: '',
+          task_status_id: '',
+          search_item: '',
+        }),
+      })
+    } else {
+      queryClient.invalidateQueries({
+        queryKey: QUERY_KEYS.TASKS_BY_EMPLOYEE({
+          date: '',
+          employee_id: userInfo ? userInfo.employeeId : '',
+          task_level_id: '',
+          task_status_id: '',
+        }),
+      })
+    }
   })
   const {setValue, watch} = form
   const watchedStartTime = watch('task_start') // for binding in end time's disabled status
-
+  console.log(form.formState.errors)
   return (
     <AlertDialog open={showModal} onOpenChange={dispatchShowModal}>
       <AlertDialogContent>

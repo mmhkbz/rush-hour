@@ -19,15 +19,19 @@ const taskSchemaBase = {
       required_error: 'Please enter remark!',
     })
     .max(200, 'Should not over than 200 charcters!'),
-  task_category_id: z.string({
-    required_error: 'Please select Task Category!',
-  }),
+  task_category_id: z
+    .string({
+      required_error: 'Please select Task Category!',
+    })
+    .min(1, 'Please select task category'),
   task_category_name: z.string({
     required_error: 'Please enter Task Category!',
   }),
-  sub_task_category_id: z.string({
-    required_error: 'Please select Task Sub-Category!',
-  }),
+  sub_task_category_id: z
+    .string({
+      required_error: 'Please select Task Sub-Category!',
+    })
+    .min(1, 'Please select sub-task category'),
   sub_task_category_name: z.string({
     required_error: 'Please enter Task Sub-Category!',
   }),
@@ -37,27 +41,35 @@ const taskSchemaBase = {
   task_end: z.date({
     required_error: "Please select Task's End Date!",
   }),
-  task_status_id: z.string({
-    required_error: "Please select Task's status!",
-  }),
+  task_status_id: z
+    .string({
+      required_error: "Please select Task's status!",
+    })
+    .min(1, 'Please select task status id!'),
   task_status_name: z.string({
     required_error: "Please enter Task's status name!",
   }),
-  task_level_id: z.string({
-    required_error: "Please select Task's level!",
-  }),
+  task_level_id: z
+    .string({
+      required_error: "Please select Task's level!",
+    })
+    .min(1, 'Please select task level!'),
   task_level_name: z.string({
     required_error: "Please enter Task's level name!",
   }),
-  project_id: z.string({
-    required_error: "Please select Project's Id!",
-  }),
+  project_id: z
+    .string({
+      required_error: "Please select Project's Id!",
+    })
+    .min(1, 'Please select project!'),
   project_name: z.string({
     required_error: "Please enter Project's name!",
   }),
-  department_id: z.string({
-    required_error: 'Please select Department!',
-  }),
+  department_id: z
+    .string({
+      required_error: 'Please select Department!',
+    })
+    .min(1, 'Please select department!'),
   department_name: z.string({
     required_error: "Please enter Department's name!",
   }),
