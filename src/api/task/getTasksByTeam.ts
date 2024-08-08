@@ -1,7 +1,7 @@
 import {coreAPIClient} from '@/libs'
 import {AxiosResponse} from 'axios'
 
-type GetTasksByTeamParamType = {
+export type GetTasksByTeamParamType = {
   team_id: string
   date: string
   task_status_id: string
@@ -11,6 +11,6 @@ type GetTasksByTeamParamType = {
 
 export const getTasksByTeam = async (param: GetTasksByTeamParamType) => {
   const response: AxiosResponse<APIDataResponse<TaskEntity[]>> =
-    await coreAPIClient.post('/tasks-by-employee', param)
+    await coreAPIClient.post('/tasks-by-team', param)
   return response.data
 }

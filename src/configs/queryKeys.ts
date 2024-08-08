@@ -1,5 +1,5 @@
 import {GetDataListParam} from '@/api/common'
-import {GetTasksByEmployeeParamType} from '@/api/task'
+import {GetTasksByEmployeeParamType, GetTasksByTeamParamType} from '@/api/task'
 
 export const QUERY_KEYS = {
   TASKS_LIST: ['tasks'],
@@ -11,6 +11,7 @@ export const QUERY_KEYS = {
     'tasks-by-employee',
     param,
   ],
+  TASKS_BY_TEAM: (param: GetTasksByTeamParamType) => ['tasks-by-team', param],
 }
 
 export const COOKIE_KEYS = {

@@ -17,6 +17,7 @@ type UserStoreStateType = {
   role?: {
     id: number | string
     name: string
+    isAdmin: boolean
   }
 }
 

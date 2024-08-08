@@ -118,10 +118,12 @@ export function useLogin() {
           },
         })
         // bind role to global state
+        const isAdmin = roleMapping.Data.RoleType === 1
         dispatchSetRole({
           role: {
             id: roleMapping.Data.RoleType,
-            name: roleMapping.Data.RoleType === 1 ? 'Admin' : 'User',
+            name: isAdmin ? 'Admin' : 'User',
+            isAdmin,
           },
         })
         toast({
