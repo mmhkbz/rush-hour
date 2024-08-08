@@ -1,4 +1,5 @@
 import {roleClient} from '@/libs'
+import {AxiosResponse} from 'axios'
 
 type CreateRoleMapParam = {
   StaffID: string
@@ -7,12 +8,8 @@ type CreateRoleMapParam = {
   TeamID: string
 }
 
-type CreateRoleMapResponse = APIDataResponse<{
-  Code?: number | string
-  Message: string
-}>
-
 export const createRoleMap = async (param: CreateRoleMapParam) => {
-  const response = await roleClient.post('/CreateRole', param)
+  const response: AxiosResponse<APIDataResponse<RoleAPIResponse>> =
+    await roleClient.post('/CreateRole', param)
   return response.data
 }

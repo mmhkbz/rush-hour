@@ -19,6 +19,7 @@ import DeleteRoleMapConfirmModal from './DeleteRoleMapConfirmModal'
 import RoleCreateModal from './RoleCreateModal'
 import {useDeleteRoleMap} from '../(hooks)/useDeleteRoleMap'
 import {selectInfo, useUserStore} from '@/store'
+import EditRoleMapModal from './EditRoleMapModal'
 
 export default function RoleMappingList() {
   const {data: roles, isPending, error} = useGetRoleList()
@@ -38,6 +39,18 @@ export default function RoleMappingList() {
     }
   )
   const accountInfo = useUserStore(selectInfo)
+  const [editModalState, setEditModalState] = useState<{
+    show: boolean
+    initialData?: {
+      id: number
+      teamId: string
+      roleId: number
+      employeeId: string
+      teamName: string
+    }
+  }>({
+    show: false,
+  })
 
   useEffect(() => {
     if (error) {
@@ -93,7 +106,20 @@ export default function RoleMappingList() {
                   </Badge>
                 </TableCell>
                 <TableCell className="flex gap-3 justify-center items-center">
-                  <Button variant="outline">
+                  <Button
+                    onClick={() => {
+                      setEditModalState({
+                        show: true,
+                        initialData: {
+                          id: role.Id,
+                          employeeId: role.StaffID,
+                          roleId: role.RoleType,
+                          teamId: role.TeamID,
+                          teamName: role.TeamName,
+                        },
+                      })
+                    }}
+                    variant="outline">
                     <IconEdit width={16} height={16} />
                   </Button>
                   <Button
@@ -130,6 +156,12 @@ export default function RoleMappingList() {
         onContinue={() => deleteRoleMap(deleteModalState.id || 0)}
         showModal={deleteModalState.show}
         staffId={deleteModalState.staffId || ''}
+      />
+      {/* Edit role map modal */}
+      <EditRoleMapModal
+        show={editModalState.show}
+        initialData={editModalState.initialData}
+        updateModal={(status) => setEditModalState({show: status})}
       />
     </div>
   )

@@ -86,6 +86,10 @@ declare global {
     TeamName: string
     TeamID: string
   }
+  export type RoleAPIResponse = {
+    Code: number | null
+    Message: string
+  }
 }
 
 export {}

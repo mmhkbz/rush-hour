@@ -1,11 +1,11 @@
-import {DataSelect} from '@/components/select'
+import {DataSelect, DataSelectPropsType} from '@/components/select'
 
 type RoleSelectInputPropsType = {
   onSelect: (value: string | number) => void
-}
+} & Partial<DataSelectPropsType>
 
 export default function RoleSelectInput(props: RoleSelectInputPropsType) {
-  const {onSelect} = props
+  const {onSelect, ...otherProps} = props
   return (
     <DataSelect
       label="Role"
@@ -21,6 +21,7 @@ export default function RoleSelectInput(props: RoleSelectInputPropsType) {
           value: 2,
         },
       ]}
+      {...otherProps}
     />
   )
 }
