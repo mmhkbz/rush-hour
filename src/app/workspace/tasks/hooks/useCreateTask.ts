@@ -69,7 +69,7 @@ const createTaskSchema = z.object({
 
 type CreateTaskFormType = z.infer<typeof createTaskSchema>
 
-export function useCreateTask() {
+export function useCreateTask(successCallback: VoidFunction) {
   const form = useForm<CreateTaskFormType>({
     resolver: zodResolver(createTaskSchema),
     defaultValues: {
@@ -96,13 +96,18 @@ export function useCreateTask() {
       team_id: userInfo ? userInfo.teamId : '',
       team_name: userInfo ? userInfo.teamName : '',
     })
-    console.log(response)
     if (response.Data && response.Data.status === 'SUCCESS') {
+      successCallback()
       return toast({
         title: 'Succcess',
         description: 'Successfully added new task!',
       })
     }
+    toast({
+      title: 'Error',
+      description: 'Failed to add task!',
+      variant: 'destructive',
+    })
   })
 
   return {form, isPending, handleCreate}

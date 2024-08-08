@@ -47,16 +47,9 @@ export default function TasksCardViewSection(props: TasksCardViewSectionProps) {
       <div>
         <h6 className="font-bold mb-2 text-[14px]">| Today Tasks</h6>
         <div className="grid grid-cols-3 gap-5 md:gap-3">
-          <TaskCard
-            id={crypto.randomUUID()}
-            name="Fix some issues on some portal and release new versions and run test cases"
-            timestamp={new Date()}
-            timeTo={new Date()}
-            timeFrom={new Date()}
-            status="completed"
-            username="Lionel"
-            userId="id"
-          />
+          {tasks.map((task) => (
+            <TaskCard {...task} key={task.PK} />
+          ))}
         </div>
       </div>
       <Separator className="my-5" />

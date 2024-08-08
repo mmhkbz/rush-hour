@@ -9,9 +9,11 @@ import {
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog'
 import {
+  selectInfo,
   selectShowNewTaskModal,
   setShowNewTaskModalAction,
   useAppState,
+  useUserStore,
 } from '@/store'
 import {IconFile} from '@tabler/icons-react'
 import {
@@ -42,12 +44,26 @@ import {
 import ProjectListSelect from '@/components/select/ProjectListSelect'
 import DepartmentListSelect from '@/components/select/DepartmentListSelect'
 import {Textarea} from '@/components/ui/textarea'
+import {useQueryClient} from '@tanstack/react-query'
+import {QUERY_KEYS} from '@/configs'
 
 // TODO : refactor and split into smaller components
 export function NewTaskModal() {
   const showModal = useAppState(selectShowNewTaskModal)
   const dispatchShowModal = useAppState(setShowNewTaskModalAction)
-  const {form, isPending, handleCreate} = useCreateTask()
+  const userInfo = useUserStore(selectInfo)
+  const queryClient = useQueryClient()
+  const {form, isPending, handleCreate} = useCreateTask(() => {
+    dispatchShowModal(false)
+    queryClient.invalidateQueries({
+      queryKey: QUERY_KEYS.TASKS_BY_EMPLOYEE({
+        date: '',
+        employee_id: userInfo ? userInfo.employeeId : '',
+        task_level_id: '',
+        task_status_id: '',
+      }),
+    })
+  })
   const {setValue, watch} = form
   const watchedStartTime = watch('task_start') // for binding in end time's disabled status
 

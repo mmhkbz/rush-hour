@@ -21,10 +21,10 @@ import {Input} from '@/components/ui/input'
 import {IconCirclePlus} from '@tabler/icons-react'
 import {useState} from 'react'
 import RoleSelectInput from '../../(components)/RoleSelectInput'
-import TeamSelect from '@/components/select/TeamSelect'
 import {useCreateRoleMap} from '../(hooks)/useCreateRoleMap'
 import {useQueryClient} from '@tanstack/react-query'
 import {QUERY_KEYS} from '@/configs'
+import {TeamSelect} from '@/components/select'
 
 export default function RoleCreateModal() {
   const [showRoleModal, setShowRoleModal] = useState(false)
@@ -38,7 +38,7 @@ export default function RoleCreateModal() {
   return (
     <AlertDialog open={showRoleModal} onOpenChange={setShowRoleModal}>
       <Button
-        className="flex gap-2 items-center"
+        className="flex gap-2 items-center bg-blue-800"
         onClick={() => setShowRoleModal(true)}>
         <IconCirclePlus width={16} height={16} />
         Role Map

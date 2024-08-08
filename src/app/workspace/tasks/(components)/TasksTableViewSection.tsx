@@ -46,6 +46,22 @@ const columns: ColumnDef<TaskEntity>[] = [
     ),
   },
   {
+    accessorKey: 'team_name',
+    header: 'Team Name',
+    cell: ({getValue}) => (
+      <span className="max-w-[100px] min-w-[100px] line-clamp-1">
+        {getValue() as string}
+      </span>
+    ),
+  },
+  {
+    accessorKey: 'project_name',
+    header: 'Project Name',
+    cell: ({getValue}) => (
+      <span className="line-clamp-1">{getValue() as string}</span>
+    ),
+  },
+  {
     accessorKey: 'log_date',
     header: 'Date',
     cell: ({row}) => (

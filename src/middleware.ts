@@ -8,7 +8,7 @@ export function middleware(req: NextRequest) {
   ]
 
   if (!access_token && !refresh_token) {
-    // return NextResponse.redirect(new URL('/login', req.url))
+    return NextResponse.redirect(new URL('/login', req.url))
   }
 }
 

@@ -2,7 +2,7 @@
 import {useGetTeams} from '@/hooks/useGetTeams'
 import {DataSelect, DataSelectPropsType} from './DataSelect'
 
-export default function TeamSelect(props: Partial<DataSelectPropsType>) {
+export function TeamSelect(props: Partial<DataSelectPropsType>) {
   const {data, isPending} = useGetTeams()
   return (
     <DataSelect
