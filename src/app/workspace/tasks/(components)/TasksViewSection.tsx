@@ -11,6 +11,8 @@ import TasksCardViewSection from './TasksCardViewSection'
 import TasksTableViewSection from './TasksTableViewSection'
 import {useGetTasksByEmployee} from '../hooks/useGetTasksByEmployee'
 import {useGetTasksByTeam} from '../hooks/useGetTasksByTeam'
+import {TaskViewProvider} from '../context/TaskViewContext'
+import TaskEditSheet from './TaskEditSheet'
 
 export default function TasksViewSection() {
   const taskViewType = useAppState(selectTasksView)
@@ -39,15 +41,20 @@ export default function TasksViewSection() {
       roleInfo ? roleInfo.isAdmin : false // only admin
     )
 
-  return taskViewType === 'card' ? (
-    <TasksCardViewSection
-      tasks={tasksByEmployee || tasksByTeam || []}
-      isPending={isGettingTasksByEmployee || isGettingTasksByTeam}
-    />
-  ) : (
-    <TasksTableViewSection
-      tasks={tasksByEmployee || tasksByTeam || []}
-      isPending={isGettingTasksByEmployee || isGettingTasksByTeam}
-    />
+  return (
+    <TaskViewProvider>
+      {taskViewType === 'card' ? (
+        <TasksCardViewSection
+          tasks={tasksByEmployee || tasksByTeam || []}
+          isPending={isGettingTasksByEmployee || isGettingTasksByTeam}
+        />
+      ) : (
+        <TasksTableViewSection
+          tasks={tasksByEmployee || tasksByTeam || []}
+          isPending={isGettingTasksByEmployee || isGettingTasksByTeam}
+        />
+      )}
+      <TaskEditSheet />
+    </TaskViewProvider>
   )
 }

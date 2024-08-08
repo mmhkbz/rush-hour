@@ -1,11 +1,39 @@
 'use client'
 import {DataTable} from '@/components/table'
-import {ColumnDef} from '@tanstack/react-table'
+import {CellContext, ColumnDef} from '@tanstack/react-table'
 import {Badge} from '@/components/ui/badge'
 import {format} from 'date-fns'
 import {Button} from '@/components/ui/button'
 import {IconDots} from '@tabler/icons-react'
 import {Card} from '@/components/ui/card'
+import {useTaskViewContext} from '../context/TaskViewContext'
+import {FC, memo} from 'react'
+
+const TableAction: FC<CellContext<TaskEntity, unknown>> = memo(({row}) => {
+  const context = useTaskViewContext()
+  return (
+    <div className="flex justify-center">
+      <Button
+        onClick={() => {
+          context?.setEditTaskModal({
+            editTaskModal: {
+              show: true,
+              initialData: {
+                ...row.original,
+              },
+            },
+          })
+        }}
+        size="sm"
+        className="p-1"
+        variant="outline">
+        <IconDots width={16} height={16} />
+      </Button>
+    </div>
+  )
+})
+
+TableAction.displayName = 'TableAction'
 
 const columns: ColumnDef<TaskEntity>[] = [
   {
@@ -96,15 +124,7 @@ const columns: ColumnDef<TaskEntity>[] = [
   },
   {
     header: 'Action',
-    cell: () => {
-      return (
-        <div className="flex justify-center">
-          <Button size="sm" className="p-1" variant="outline">
-            <IconDots width={16} height={16} />
-          </Button>
-        </div>
-      )
-    },
+    cell: TableAction,
   },
 ]
 

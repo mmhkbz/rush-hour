@@ -7,7 +7,7 @@ import {addHours} from 'date-fns'
 import {useForm} from 'react-hook-form'
 import {z} from 'zod'
 
-const taskSchemaBase = {
+export const taskSchemaBase = {
   task_name: z
     .string({
       required_error: 'Please enter task name!',

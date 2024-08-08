@@ -4,7 +4,8 @@ import {Card} from '@/components/ui/card'
 import {cn} from '@/libs/utils'
 import {IconArrowRight, IconGripVertical} from '@tabler/icons-react'
 import {format} from 'date-fns'
-import {useMemo} from 'react'
+import {useCallback, useMemo} from 'react'
+import {useTaskViewContext} from '../context/TaskViewContext'
 
 export default function TaskCard(props: TaskEntity) {
   const {
@@ -20,6 +21,7 @@ export default function TaskCard(props: TaskEntity) {
     department_name,
     project_name,
   } = props
+  const context = useTaskViewContext()
 
   const statusColor = useMemo(() => {
     switch (task_status_name) {
@@ -34,8 +36,22 @@ export default function TaskCard(props: TaskEntity) {
     }
   }, [task_status_name])
 
+  const onClick = useCallback(() => {
+    if (!context) {
+      return
+    }
+    context.setEditTaskModal({
+      editTaskModal: {
+        show: true,
+        initialData: props,
+      },
+    })
+  }, [context, props])
+
   return (
-    <Card className="col-span-3 hover:cursor-pointer hover:shadow-md hover:opacity-75 transition-all md:col-span-1  border-l-4 border-l-blue-800 flex items-center  rounded-md px-[4px] py-[12px] min-h-[120px]">
+    <Card
+      onClick={onClick}
+      className="col-span-3 hover:cursor-pointer hover:shadow-md hover:opacity-75 transition-all md:col-span-1  border-l-4 border-l-blue-800 flex items-center  rounded-md px-[4px] py-[12px] min-h-[120px]">
       <IconGripVertical width={16} height={16} />
       <div className="w-[33%] flex flex-col justify-center items-center gap-2 ml-1 h-[100%] bg-neutral-100 rounded-md p-2">
         <span className="text-[14px] font-bold text-blue-800">

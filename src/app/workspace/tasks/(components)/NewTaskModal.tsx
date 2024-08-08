@@ -81,7 +81,6 @@ export function NewTaskModal() {
   })
   const {setValue, watch} = form
   const watchedStartTime = watch('task_start') // for binding in end time's disabled status
-  console.log(form.formState.errors)
   return (
     <AlertDialog open={showModal} onOpenChange={dispatchShowModal}>
       <AlertDialogContent>
@@ -96,196 +95,192 @@ export function NewTaskModal() {
         </AlertDialogHeader>
         <Form {...form}>
           <form onSubmit={handleCreate}>
-            <FormField
-              name="task_name"
-              render={({field}) => (
-                <FormItem>
-                  <FormLabel>Task name</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Enter task name" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                  <FormDescription>
-                    Remark: If you filled task name only, it will automatically
-                    assume as today and status as progress. Please make sure to
-                    fill detail.
-                  </FormDescription>
-                </FormItem>
-              )}
-            />
+            <div className="flex flex-col gap-2 p-2 max-h-[500px] overflow-scroll">
+              <FormField
+                name="task_name"
+                render={({field}) => (
+                  <FormItem>
+                    <FormLabel>Task name</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Enter task name" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                    <FormDescription>
+                      Remark: If you filled task name only, it will
+                      automatically assume as today and status as progress.
+                      Please make sure to fill detail.
+                    </FormDescription>
+                  </FormItem>
+                )}
+              />
 
-            <Accordion type="single" collapsible className="w-full">
-              <AccordionItem value="item-1">
-                <AccordionTrigger>Continue for detail</AccordionTrigger>
-                <AccordionContent className="max-h-[300px] gap-2 overflow-scroll p-1">
-                  <FormField
-                    name="task_start"
-                    render={({field}) => (
-                      <FormItem>
-                        <FormLabel>Start time</FormLabel>
-                        <FormControl>
-                          <DateTimePickerSelect
-                            value={field.value}
-                            onChange={field.onChange}
-                            label="Pick start date-time"
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    name="task_end"
-                    render={({field}) => (
-                      <FormItem>
-                        <FormLabel>End time </FormLabel>
-                        <FormControl>
-                          <DateTimePickerSelect
-                            value={field.value}
-                            onChange={field.onChange}
-                            label="Pick end date-time"
-                            disabled={
-                              watchedStartTime
-                                ? {before: watchedStartTime}
-                                : undefined
-                            }
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    name="task_status_id"
-                    render={({field}) => (
-                      <FormItem>
-                        <FormLabel>Task status</FormLabel>
-                        <FormControl>
-                          <TaskStatusSelect
-                            onValueChange={(value) => field.onChange(value)}
-                            value={field.value}
-                            onAfterChange={(option) => {
-                              setValue('task_status_name', option.label)
-                            }}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    name="task_category_id"
-                    render={({field}) => (
-                      <FormItem>
-                        <FormLabel>Task category</FormLabel>
-                        <FormControl>
-                          <TaskCategoryListSelect
-                            onValueChange={(value) => field.onChange(value)}
-                            value={field.value}
-                            onAfterChange={(option) => {
-                              setValue('task_category_name', option.label)
-                            }}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    name="sub_task_category_id"
-                    render={({field}) => (
-                      <FormItem>
-                        <FormLabel>Sub-task category</FormLabel>
-                        <FormControl>
-                          <SubTaskCategoryListSelect
-                            onValueChange={(value) => {
-                              field.onChange(value)
-                            }}
-                            value={field.value}
-                            onAfterChange={(option) => {
-                              setValue('sub_task_category_name', option.label)
-                            }}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    name="task_level_id"
-                    render={({field}) => (
-                      <FormItem>
-                        <FormLabel>Task level</FormLabel>
-                        <FormControl>
-                          <TaskLevelSelect
-                            onValueChange={(value) => {
-                              field.onChange(value)
-                            }}
-                            value={field.value}
-                            onAfterChange={(option) => {
-                              setValue('task_level_name', option.label)
-                            }}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    name="project_id"
-                    render={({field}) => (
-                      <FormItem>
-                        <FormLabel>Project</FormLabel>
-                        <FormControl>
-                          <ProjectListSelect
-                            onValueChange={(value) => {
-                              field.onChange(value)
-                            }}
-                            value={field.value}
-                            onAfterChange={(option) => {
-                              setValue('project_name', option.label)
-                            }}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    name="department_id"
-                    render={({field}) => (
-                      <FormItem>
-                        <FormLabel>Department</FormLabel>
-                        <FormControl>
-                          <DepartmentListSelect
-                            onValueChange={(value) => {
-                              field.onChange(value)
-                            }}
-                            value={field.value}
-                            onAfterChange={(option) => {
-                              setValue('department_name', option.label)
-                            }}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    name="remark"
-                    render={({field}) => (
-                      <FormItem>
-                        <FormLabel>Remark</FormLabel>
-                        <FormControl>
-                          <Textarea placeholder="Remark" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </AccordionContent>
-              </AccordionItem>
-            </Accordion>
+              <FormField
+                name="task_start"
+                render={({field}) => (
+                  <FormItem>
+                    <FormLabel>Start time</FormLabel>
+                    <FormControl>
+                      <DateTimePickerSelect
+                        value={field.value}
+                        onChange={field.onChange}
+                        label="Pick start date-time"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                name="task_end"
+                render={({field}) => (
+                  <FormItem>
+                    <FormLabel>End time </FormLabel>
+                    <FormControl>
+                      <DateTimePickerSelect
+                        value={field.value}
+                        onChange={field.onChange}
+                        label="Pick end date-time"
+                        disabled={
+                          watchedStartTime
+                            ? {before: watchedStartTime}
+                            : undefined
+                        }
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                name="task_status_id"
+                render={({field}) => (
+                  <FormItem>
+                    <FormLabel>Task status</FormLabel>
+                    <FormControl>
+                      <TaskStatusSelect
+                        onValueChange={(value) => field.onChange(value)}
+                        value={field.value}
+                        onAfterChange={(option) => {
+                          setValue('task_status_name', option.label)
+                        }}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                name="task_category_id"
+                render={({field}) => (
+                  <FormItem>
+                    <FormLabel>Task category</FormLabel>
+                    <FormControl>
+                      <TaskCategoryListSelect
+                        onValueChange={(value) => field.onChange(value)}
+                        value={field.value}
+                        onAfterChange={(option) => {
+                          setValue('task_category_name', option.label)
+                        }}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                name="sub_task_category_id"
+                render={({field}) => (
+                  <FormItem>
+                    <FormLabel>Sub-task category</FormLabel>
+                    <FormControl>
+                      <SubTaskCategoryListSelect
+                        onValueChange={(value) => {
+                          field.onChange(value)
+                        }}
+                        value={field.value}
+                        onAfterChange={(option) => {
+                          setValue('sub_task_category_name', option.label)
+                        }}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                name="task_level_id"
+                render={({field}) => (
+                  <FormItem>
+                    <FormLabel>Task level</FormLabel>
+                    <FormControl>
+                      <TaskLevelSelect
+                        onValueChange={(value) => {
+                          field.onChange(value)
+                        }}
+                        value={field.value}
+                        onAfterChange={(option) => {
+                          setValue('task_level_name', option.label)
+                        }}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                name="project_id"
+                render={({field}) => (
+                  <FormItem>
+                    <FormLabel>Project</FormLabel>
+                    <FormControl>
+                      <ProjectListSelect
+                        onValueChange={(value) => {
+                          field.onChange(value)
+                        }}
+                        value={field.value}
+                        onAfterChange={(option) => {
+                          setValue('project_name', option.label)
+                        }}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                name="department_id"
+                render={({field}) => (
+                  <FormItem>
+                    <FormLabel>Department</FormLabel>
+                    <FormControl>
+                      <DepartmentListSelect
+                        onValueChange={(value) => {
+                          field.onChange(value)
+                        }}
+                        value={field.value}
+                        onAfterChange={(option) => {
+                          setValue('department_name', option.label)
+                        }}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                name="remark"
+                render={({field}) => (
+                  <FormItem>
+                    <FormLabel>Remark</FormLabel>
+                    <FormControl>
+                      <Textarea placeholder="Remark" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+
             <AlertDialogFooter className="mt-3">
               <AlertDialogCancel disabled={isPending}>Cancel</AlertDialogCancel>
               <Button type="submit" disabled={isPending}>
