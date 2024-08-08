@@ -94,7 +94,12 @@ export default function RoleMappingList() {
           {roles &&
             (roles as RoleMapping[]).map((role) => (
               <TableRow key={role.Id}>
-                <TableCell className="border">{role.StaffID}</TableCell>
+                <TableCell className="border">
+                  {role.StaffID}{' '}
+                  {accountInfo?.employeeId === role.StaffID && (
+                    <span className="text-red-500">(YOU)</span>
+                  )}
+                </TableCell>
                 <TableCell className="border">{role.TeamName || '-'}</TableCell>
                 <TableCell className="border">
                   <Badge
