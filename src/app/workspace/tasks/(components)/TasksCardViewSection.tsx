@@ -48,7 +48,7 @@ export default function TasksCardViewSection(props: TasksCardViewSectionProps) {
         <h6 className="font-bold mb-2 text-[14px]">| Today Tasks</h6>
         <div className="grid grid-cols-3 gap-5 md:gap-3">
           {tasks.map((task) => (
-            <TaskCard {...task} key={task.PK} />
+            <TaskCard {...task} key={task.SK} />
           ))}
         </div>
       </div>
