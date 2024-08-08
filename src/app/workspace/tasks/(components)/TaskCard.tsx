@@ -1,16 +1,14 @@
 import {Avatar, AvatarFallback, AvatarImage} from '@/components/ui/avatar'
-import {Badge} from '@/components/ui/badge'
 import {Card} from '@/components/ui/card'
-import {cn} from '@/libs/utils'
 import {IconArrowRight, IconGripVertical} from '@tabler/icons-react'
 import {format} from 'date-fns'
-import {useCallback, useMemo} from 'react'
+import {useCallback} from 'react'
 import {useTaskViewContext} from '../context/TaskViewContext'
+import StatusBadge from '@/components/badge/StatusBadge'
 
 export default function TaskCard(props: TaskEntity) {
   const {
     task_name,
-    log_date,
     task_start,
     task_end,
     task_status_name,
@@ -20,21 +18,9 @@ export default function TaskCard(props: TaskEntity) {
     sub_task_category_name,
     department_name,
     project_name,
+    task_level_name,
   } = props
   const context = useTaskViewContext()
-
-  const statusColor = useMemo(() => {
-    switch (task_status_name) {
-      case 'Planned':
-        return 'bg-blue-500'
-      case 'Pending':
-        return 'bg-orange-500'
-      case 'Completed':
-        return 'bg-green-500'
-      case 'In Progress':
-        return 'bg-yellow-500'
-    }
-  }, [task_status_name])
 
   const onClick = useCallback(() => {
     if (!context) {
@@ -54,8 +40,9 @@ export default function TaskCard(props: TaskEntity) {
       className="col-span-3 hover:cursor-pointer hover:shadow-md hover:opacity-75 transition-all md:col-span-1  border-l-4 border-l-blue-800 flex items-center  rounded-md px-[4px] py-[12px] min-h-[120px]">
       <IconGripVertical width={16} height={16} />
       <div className="w-[33%] flex flex-col justify-center items-center gap-2 ml-1 h-[100%] bg-neutral-100 rounded-md p-2">
+        <span className="text-red-500">[{task_level_name}]</span>
         <span className="text-[14px] font-bold text-blue-800">
-          {format(log_date, 'yyyy MMM, dd')}
+          {format(task_start, 'yyyy MMM, dd')}
         </span>
         <div className="flex items-center gap-1">
           <span className="text-[14px] text-neutral-900">
@@ -106,15 +93,7 @@ export default function TaskCard(props: TaskEntity) {
             </span>
           </div>
           <div className="flex gap-2 items-center">
-            <Badge
-              className={cn(
-                statusColor,
-                `hover:${statusColor} hover:opacity-85`
-              )}>
-              <span className="text-[12px] line-clamp-1">
-                {task_status_name}
-              </span>
-            </Badge>
+            <StatusBadge value={task_status_name} />
           </div>
         </div>
       </div>

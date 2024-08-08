@@ -17,7 +17,7 @@ const Brand = () => {
   return (
     <div className="flex items-center gap-2">
       <Image src="/icons/brand.png" alt="brand-icon" width={40} height={40} />
-      <h6 className="text-[16px] text-blue-800">Rush Hour</h6>
+      <h6 className="text-[16px] text-blue-800">Productive Hour</h6>
     </div>
   )
 }

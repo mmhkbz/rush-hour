@@ -8,6 +8,7 @@ import {IconDots} from '@tabler/icons-react'
 import {Card} from '@/components/ui/card'
 import {useTaskViewContext} from '../context/TaskViewContext'
 import {FC, memo} from 'react'
+import StatusBadge from '@/components/badge/StatusBadge'
 
 const TableAction: FC<CellContext<TaskEntity, unknown>> = memo(({row}) => {
   const context = useTaskViewContext()
@@ -37,10 +38,10 @@ TableAction.displayName = 'TableAction'
 
 const columns: ColumnDef<TaskEntity>[] = [
   {
-    accessorKey: 'status',
+    accessorKey: 'task_status_name',
     header: 'Status',
-    cell: ({row}) => {
-      return <Badge>{row.original.task_status_name}</Badge>
+    cell: ({getValue}) => {
+      return <StatusBadge value={getValue() as string} />
     },
   },
   {

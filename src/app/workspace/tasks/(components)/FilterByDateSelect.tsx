@@ -5,11 +5,22 @@ import {Popover, PopoverContent, PopoverTrigger} from '@/components/ui/popover'
 import {cn} from '@/libs/utils'
 import {CalendarIcon} from '@radix-ui/react-icons'
 import {format} from 'date-fns'
-import {useState} from 'react'
-import {DateRange} from 'react-day-picker'
+import {useEffect, useState} from 'react'
 
-export default function FilterByDateSelect() {
-  const [date, setDate] = useState<DateRange | undefined>()
+type FilterByDateSelect = {
+  onSelect?: (value: Date | undefined) => void
+  value?: Date | undefined
+  label?: string
+}
+
+export default function FilterByDateSelect(props: FilterByDateSelect) {
+  const {onSelect, value, label = 'Filter by date'} = props
+  const [date, setDate] = useState<Date | undefined>()
+
+  useEffect(() => {
+    setDate(value)
+  }, [value])
+
   return (
     <div className={cn('grid gap-2')}>
       <Popover>
@@ -20,28 +31,19 @@ export default function FilterByDateSelect() {
             className={cn('w-[250px] justify-start text-left font-normal')}>
             <CalendarIcon className="mr-2 h-4 w-4" />
 
-            {date?.from ? (
-              date.to ? (
-                <>
-                  {format(date.from, 'LLL dd, y')} -{' '}
-                  {format(date.to, 'LLL dd, y')}
-                </>
-              ) : (
-                format(date.from, 'LLL dd, y')
-              )
-            ) : (
-              <span>Filter by date</span>
-            )}
+            {date ? format(date, 'LLL dd, y') : <span>{label}</span>}
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-auto p-0" align="start">
           <Calendar
             initialFocus
-            mode="range"
+            mode="single"
             defaultMonth={new Date()}
-            onSelect={setDate}
+            onSelect={(value) => {
+              setDate(value)
+              onSelect && onSelect(value)
+            }}
             selected={date}
-            numberOfMonths={2}
           />
         </PopoverContent>
       </Popover>
