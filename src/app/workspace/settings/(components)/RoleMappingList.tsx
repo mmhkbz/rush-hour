@@ -12,14 +12,15 @@ import {
 } from '@/components/ui/table'
 import {IconEdit, IconTrash} from '@tabler/icons-react'
 import {useGetRoleList} from '../(hooks)/useGetRoleList'
-import {useEffect, useState} from 'react'
+import {useEffect, useMemo, useState} from 'react'
 import {useToast} from '@/components/ui/use-toast'
 import {cn} from '@/libs/utils'
 import DeleteRoleMapConfirmModal from './DeleteRoleMapConfirmModal'
 import RoleCreateModal from './RoleCreateModal'
 import {useDeleteRoleMap} from '../(hooks)/useDeleteRoleMap'
-import {selectInfo, useUserStore} from '@/store'
+import {selectInfo, selectRole, useUserStore} from '@/store'
 import EditRoleMapModal from './EditRoleMapModal'
+import {Role} from '@/configs'
 
 export default function RoleMappingList() {
   const {data: roles, isPending, error} = useGetRoleList()
@@ -39,6 +40,10 @@ export default function RoleMappingList() {
     }
   )
   const accountInfo = useUserStore(selectInfo)
+  const roleInfo = useUserStore(selectRole)
+  const isReadOnly = useMemo(() => {
+    return !roleInfo || roleInfo.id !== Role.ADMIN
+  }, [roleInfo])
   const [editModalState, setEditModalState] = useState<{
     show: boolean
     initialData?: {
@@ -70,9 +75,17 @@ export default function RoleMappingList() {
           className="w-[200px]"
           placeholder="Filter by employee id"
         />
-        <RoleCreateModal />
+        {!isReadOnly && <RoleCreateModal />}
       </div>
-      <Table className="w-[100%] border">
+      {isReadOnly && (
+        <h6 className="text-red-500 text-[12px]">
+          You have only read access to this module!
+        </h6>
+      )}
+      <Table
+        className={cn('w-[100%] border', {
+          'opacity-50': isReadOnly,
+        })}>
         <TableHeader>
           <TableRow>
             <TableHead className="border">Employee Id</TableHead>
@@ -112,7 +125,19 @@ export default function RoleMappingList() {
                 </TableCell>
                 <TableCell className="flex gap-3 justify-center items-center">
                   <Button
+                    // disabled={isReadOnly}
                     onClick={() => {
+                      // unable to edit own account mapping
+                      if (
+                        accountInfo &&
+                        accountInfo?.employeeId === role.StaffID
+                      ) {
+                        return toast({
+                          title: 'Error',
+                          description: 'Unauthorized to edit yourselft!',
+                          variant: 'destructive',
+                        })
+                      }
                       setEditModalState({
                         show: true,
                         initialData: {
@@ -128,6 +153,7 @@ export default function RoleMappingList() {
                     <IconEdit width={16} height={16} />
                   </Button>
                   <Button
+                    disabled={isReadOnly}
                     onClick={() => {
                       // unable to delete own account mapping
                       if (

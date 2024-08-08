@@ -120,7 +120,7 @@ export function useLogin() {
         // bind role to global state
         dispatchSetRole({
           role: {
-            id: roleMapping.Data.Id,
+            id: roleMapping.Data.RoleType,
             name: roleMapping.Data.RoleType === 1 ? 'Admin' : 'User',
           },
         })
